@@ -428,7 +428,7 @@ a {
 
 .phone-link:hover .phone-icon {
     background: var(--color-gold);
-    color: var(--color-bg-dark);
+    color: #070a12;
     transform: scale(1.05);
 }
 
@@ -1714,7 +1714,7 @@ a {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--color-text-white);
+    color: #ffffff;
     font-size: 1.5rem;
     box-shadow: 0 10px 25px rgba(0,0,0,0.3);
     position: relative;
@@ -1746,7 +1746,7 @@ a {
 .channel-btn .tooltip {
     position: absolute;
     right: 70px;
-    background: rgba(7, 10, 18, 0.9);
+    background: rgba(7, 10, 18, 0.95);
     border: var(--border-glass);
     padding: 6px 12px;
     border-radius: 4px;
@@ -1758,7 +1758,7 @@ a {
     visibility: hidden;
     transition: all 0.3s;
     pointer-events: none;
-    color: var(--color-text-white);
+    color: #ffffff;
 }
 
 .channel-btn:hover .tooltip {
