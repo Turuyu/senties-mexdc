@@ -1,6 +1,36 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     /* ==========================================================================
+       0. LIGHT / DARK THEME TOGGLE
+       ========================================================================== */
+    const themeToggleBtn = document.getElementById('themeToggleBtn');
+    
+    // Check local storage or system preference
+    const savedTheme = localStorage.getItem('theme');
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    // We default to light theme (as requested), but honor system/saved preferences
+    if (savedTheme === 'dark' || (savedTheme === null && systemPrefersDark)) {
+        document.body.classList.add('dark-theme');
+        if (themeToggleBtn) {
+            themeToggleBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
+        }
+    } else {
+        document.body.classList.remove('dark-theme');
+        if (themeToggleBtn) {
+            themeToggleBtn.innerHTML = '<i class="fa-solid fa-moon"></i>';
+        }
+    }
+
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', () => {
+            const isDark = document.body.classList.toggle('dark-theme');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            themeToggleBtn.innerHTML = isDark ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
+        });
+    }
+
+    /* ==========================================================================
        1. CUSTOM PREMIUM CURSOR
        ========================================================================== */
     const cursor = document.getElementById('customCursor');
