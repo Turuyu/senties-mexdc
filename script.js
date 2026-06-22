@@ -223,59 +223,70 @@ document.addEventListener('DOMContentLoaded', () => {
         }).format(val);
     };
 
-    // Calculate Inmobiliario
-    const inputInmob = document.getElementById('montoInmobiliario');
-    const valInmob = document.getElementById('valGarantia');
-    const tipoObra = document.getElementById('tipoObra');
+    // Calculate Infraestructura & EPC
+    const inputInfra = document.getElementById('montoInfraestructura');
+    const valInfra = document.getElementById('valGarantiaInfra');
+    const tipoFianzaEPC = document.getElementById('tipoFianzaEPC');
 
-    const updateInmobCalculation = () => {
-        const val = parseFloat(inputInmob.value);
+    const updateInfraCalculation = () => {
+        const val = parseFloat(inputInfra.value);
         if (isNaN(val) || val <= 0) {
-            valInmob.textContent = '-';
+            valInfra.textContent = '-';
             return;
         }
         
         let percentage = 0.1; // Default 10%
-        if (tipoObra.value === 'anticipo_cumplimiento') percentage = 0.3; // 30% combined
-        if (tipoObra.value === 'vicios') percentage = 0.1;
+        if (tipoFianzaEPC.value === 'anticipo_cumplimiento') percentage = 0.4; // 30% anticipo + 10% cumplimiento
+        if (tipoFianzaEPC.value === 'vicios') percentage = 0.1;
         
-        valInmob.textContent = formatCurrency(val * percentage);
+        valInfra.textContent = formatCurrency(val * percentage);
     };
 
-    if (inputInmob) {
-        inputInmob.addEventListener('input', updateInmobCalculation);
-        tipoObra.addEventListener('change', updateInmobCalculation);
+    if (inputInfra) {
+        inputInfra.addEventListener('input', updateInfraCalculation);
+        tipoFianzaEPC.addEventListener('change', updateInfraCalculation);
     }
 
-    // Calculate Gobierno
-    const inputGob = document.getElementById('montoGobierno');
-    const valGob = document.getElementById('valGarantiaGob');
+    // Calculate Suministro Misión Crítica
+    const inputSum = document.getElementById('montoSuministro');
+    const valGarantiaSum = document.getElementById('valGarantiaSum');
+    const origenEquipos = document.getElementById('origenEquipos');
     
-    if (inputGob) {
-        inputGob.addEventListener('input', () => {
-            const val = parseFloat(inputGob.value);
-            if (isNaN(val) || val <= 0) {
-                valGob.textContent = '-';
-                return;
-            }
-            valGob.textContent = formatCurrency(val * 0.10); // Standard 10% compliance guarantee
-        });
+    const updateSuministroCalculation = () => {
+        const val = parseFloat(inputSum.value);
+        if (isNaN(val) || val <= 0) {
+            valGarantiaSum.textContent = '-';
+            return;
+        }
+        valGarantiaSum.textContent = formatCurrency(val * 0.10); // Standard 10% compliance
+    };
+
+    if (inputSum) {
+        inputSum.addEventListener('input', updateSuministroCalculation);
+        if (origenEquipos) {
+            origenEquipos.addEventListener('change', updateSuministroCalculation);
+        }
     }
 
-    // Calculate Comercial
-    const inputCom = document.getElementById('montoComercial');
-    const valCom = document.getElementById('valGarantiaCom');
+    // Calculate Energía & Conectividad
+    const inputEne = document.getElementById('montoEnergia');
+    const valGarantiaEne = document.getElementById('valGarantiaEne');
+    const tipoConvenio = document.getElementById('tipoConvenio');
     
-    if (inputCom) {
-        inputCom.addEventListener('input', () => {
-            const val = parseFloat(inputCom.value);
-            if (isNaN(val) || val <= 0) {
-                valCom.textContent = '-';
-                return;
-            }
-            // Suggesting standard deductible limits or premium ranges
-            valCom.textContent = formatCurrency(val);
-        });
+    const updateEnergiaCalculation = () => {
+        const val = parseFloat(inputEne.value);
+        if (isNaN(val) || val <= 0) {
+            valGarantiaEne.textContent = '-';
+            return;
+        }
+        valGarantiaEne.textContent = formatCurrency(val);
+    };
+
+    if (inputEne) {
+        inputEne.addEventListener('input', updateEnergiaCalculation);
+        if (tipoConvenio) {
+            tipoConvenio.addEventListener('change', updateEnergiaCalculation);
+        }
     }
 
     // Wizard CTAs scrolling to contact and filling fields
@@ -294,14 +305,14 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Generate tailored message based on calculator input
             let customMsg = '';
-            if (activeTab === 'inmobiliario' && inputInmob.value) {
-                customMsg = `Hola Lázaro. Requiero asesoría para una Fianza Inmobiliaria. El monto estimado del contrato es de ${formatCurrency(inputInmob.value)} con requerimiento de fianza: ${tipoObra.options[tipoObra.selectedIndex].text}.`;
-            } else if (activeTab === 'gobierno' && inputGob.value) {
-                customMsg = `Hola Lázaro. Requiero tramitar una Fianza de Gobierno para una licitación. El monto de la obra/suministro es de ${formatCurrency(inputGob.value)}.`;
-            } else if (activeTab === 'comercial' && inputCom.value) {
-                customMsg = `Hola Lázaro. Solicito información sobre fianzas de fidelidad o crédito comercial para proteger un monto estimado de ${formatCurrency(inputCom.value)}.`;
+            if (activeTab === 'infraestructura' && inputInfra.value) {
+                customMsg = `Hola Lázaro. Requiero asesoría para estructurar fianzas de Infraestructura & EPC. El valor total estimado de la obra es de ${formatCurrency(inputInfra.value)} con requerimiento de garantía: ${tipoFianzaEPC.options[tipoFianzaEPC.selectedIndex].text}.`;
+            } else if (activeTab === 'suministro' && inputSum.value) {
+                customMsg = `Hola Lázaro. Solicito información sobre fianzas de Suministro para Equipamiento de Misión Crítica. El monto de la procura estimada es de ${formatCurrency(inputSum.value)} (${origenEquipos.options[origenEquipos.selectedIndex].text}).`;
+            } else if (activeTab === 'energia' && inputEne.value) {
+                customMsg = `Hola Lázaro. Requiero estructurar una fianza para un convenio de Energía/Conectividad. El monto de la fianza solicitado es de ${formatCurrency(inputEne.value)} para: ${tipoConvenio.options[tipoConvenio.selectedIndex].text}.`;
             } else {
-                customMsg = `Hola Lázaro. Me interesa obtener asesoría personalizada y cotizar una línea de afianzamiento para mi negocio.`;
+                customMsg = `Hola Lázaro. Me interesa recibir una evaluación de pliegos de licitación y capacidad de afianzamiento para un proyecto de infraestructura de misión crítica / data center.`;
             }
 
             if (inputMessage) {

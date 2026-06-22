@@ -1,38 +1,33 @@
-# Lázaro Cruz — Experto en Fianzas y Garantías
+# Lázaro Cruz — Fianzas y Garantías para Infraestructura Crítica y Data Centers
 
-Lázaro Cruz es una consultoría especializada de alto nivel y agente de fianzas en México con más de 30 años de experiencia, brindando asesoría y facilitando la emisión de garantías financieras para desarrolladores inmobiliarios, contratistas del gobierno y sectores comerciales. Su sede física se encuentra en Mérida, Yucatán.
+Lázaro Cruz es una firma de consultoría y corretaje de fianzas de alta especialización en México, con más de 30 años de experiencia estructurando líneas de afianzamiento y capacidad de emisión a gran escala. La firma asesora a contratistas EPC, integradores de misión crítica, proveedores tecnológicos y operadores de centros de datos para blindar jurídicamente sus contratos, cumplir con regulaciones y acelerar sus proyectos sin cuellos de botella financieros.
 
 ## Información de Contacto
 - **Dirección**: Calle 20 #235, Plaza Luxus Local 201, Altabrisa, C.P. 97130, Mérida, Yucatán, México.
 - **Teléfono**: +52 (999) 127 4283
 - **Email**: contacto@lazarocruz.mx
-- **Sitio Web Principal**: https://lazarocruz.mx/
-- **Director General / Experto**: Lázaro G. Cruz Vázquez (Agente certificado ante la CNSF)
+- **Sitio Web**: https://lazarocruz.mx/
+- **Director General / Suscriptor Clave**: Lázaro G. Cruz Vázquez (Agente certificado ante la CNSF)
 
-## Servicios Clave (Fianzas)
+## Soluciones Sectoriales de Garantía
 
-### 1. Desarrolladores Inmobiliarios & Obra Civil
-Garantías indispensables para proyectos de edificación, infraestructura y construcción tanto públicos como privados:
-- **Fianzas de Anticipo**: Garantiza que el dinero entregado por adelantado se aplique al objeto del contrato.
-- **Fianzas de Cumplimiento**: Respalda la ejecución total y conforme a contrato de la obra o edificación.
-- **Fianzas de Vicios Ocultos / Buena Calidad**: Respalda las fallas, defectos de construcción o mala calidad de materiales que surjan tras la entrega por un periodo definido (generalmente 1 a 2 años).
+### 1. Contratistas EPC (Ingeniería, Procura y Construcción)
+Alternativas de afianzamiento estructurado para la construcción civil y electromecánica de naves de almacenamiento digital, cimentaciones, y subestaciones eléctricas:
+- **Anticipo de Obra**: Asegura la aplicación correcta de los fondos adelantados para materiales y preparación del sitio.
+- **Cumplimiento Contractual**: Garantiza que el contratista complete las fases de obra civil según especificaciones técnicas.
+- **Vicios Ocultos / Buena Calidad**: Respalda desperfectos en los sistemas estructurales u obra civil del Data Center tras la entrega.
 
-### 2. Contratos Gubernamentales (Fianzas de Gobierno)
-Garantías especializadas conforme a la Ley de Adquisiciones, Arrendamientos y Servicios del Sector Público, y la Ley de Obras Públicas en México. Apoya a PyMEs y corporativos en contratos con administraciones federales, estatales y municipales:
-- **Licitaciones y Concursos**: Garantiza el sostenimiento de la oferta presentada.
-- **Cumplimiento Administrativo**: Garantiza el cumplimiento de contratos de suministro de insumos o prestación de servicios técnicos.
+### 2. Suministro Tecnológico y Misión Crítica
+Respaldos de cumplimiento de procura y entrega para proveedores e integradores de equipamiento pesado y precisión:
+- **Equipos Críticos**: Sistemas de UPS, plantas generadoras de diésel, chillers de enfriamiento líquido y climatización de precisión.
+- **Cumplimiento de Procura**: Garantías de cumplimiento en tiempos de entrega inbound de importaciones para evitar penalidades de retraso (SLA contractuales).
 
-### 3. Fidelidad, Crédito y Fianzas Judiciales
-- **Fidelidad**: Protege el patrimonio de las empresas contra fraudes, robos o abusos de confianza cometidos por empleados.
-- **Crédito**: Garantiza los compromisos de pago en contratos de compraventa de materias primas o insumos comerciales.
-- **Judiciales**: Fianzas ordenadas por juzgados civiles, penales o laborales para suspender actos, garantizar cauciones o pensiones.
+### 3. Energía y Conectividad (Relaciones Reguladas)
+Fianzas de cumplimiento administrativo y operativo requeridas para la interconexión con el Sistema Eléctrico Nacional y despliegues de red:
+- **CFE / CRE**: Fianzas de cumplimiento para convenios de conexión de media y alta tensión requeridas para alimentar centros de datos.
+- **Conectividad de Red**: Garantías ante dependencias municipales y estatales para excavaciones y tendido aéreo/subterráneo de fibra óptica.
 
-## Estadísticas Destacadas (Respaldo)
-- **Años de trayectoria**: +30 años
-- **Pólizas emitidas**: +300 fianzas firmadas
-- **Clientes atendidos**: +3,000 afianzados en toda la república
-- **Cobertura**: Operaciones activas en 15 estados de México
-
-## Herramientas e Interactividad
-- **Cotizador de Fianzas**: Permite estimar la viabilidad de la fianza según el monto del contrato.
-- **Validador en Línea de Pólizas**: Enlace directo para comprobar que los folios emitidos estén validados y registrados ante la CNSF (Comisión Nacional de Seguros y Fianzas).
+## Diferenciales B2B y Capacidad de Colocación
+- **Capacidad Hyperscale**: Capacidad técnica para suscribir y sindicar fianzas de alta suma asegurada (reaseguro nacional y convenios de coafianzamiento).
+- **Emisión Express**: Precalificación corporativa y emisión en 24-48 horas de pólizas validadas electrónicamente.
+- **Compliance CNSF**: 100% de las fianzas registradas oficialmente ante la Comisión Nacional de Seguros y Fianzas (CNSF) bajo la Ley de Instituciones de Seguros y de Fianzas (LISF).
