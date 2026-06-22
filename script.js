@@ -30,24 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    /* ==========================================================================
-       1. CUSTOM PREMIUM CURSOR
-       ========================================================================== */
-    const cursor = document.getElementById('customCursor');
-    
-    if (cursor) {
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-        });
-
-        // Hover effect for interactive elements
-        const hoverables = document.querySelectorAll('a, button, select, input, textarea, .accordion-trigger, [role="button"]');
-        hoverables.forEach(el => {
-            el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
-            el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
-        });
-    }
+    // Custom premium cursor removed for standard browser experience in B2B corporate mode.
 
     /* ==========================================================================
        2. MOBILE MENU NAVIGATION
