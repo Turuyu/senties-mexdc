@@ -158,25 +158,14 @@ body.dark-theme .header {
 
 .logo {
     display: flex;
-    flex-direction: column;
-    line-height: 1.1;
+    align-items: center;
     flex-shrink: 0;
 }
 
-.logo-name {
-    font-family: var(--font-heading);
-    font-size: 1.05rem;
-    font-weight: 500;
-    color: var(--text);
-    letter-spacing: 0.02em;
-}
-
-.logo-tag {
-    font-size: 0.6rem;
-    font-weight: 600;
-    color: var(--gold);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
+.logo-img {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
 }
 
 .nav {
@@ -306,6 +295,30 @@ body.dark-theme .mobile-menu {
     max-width: var(--max-width);
     margin: 0 auto;
     width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 48px;
+    align-items: center;
+}
+
+.hero-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.hero-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero-photo {
+    width: 100%;
+    max-width: 380px;
+    height: auto;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    object-fit: cover;
 }
 
 .hero-badge {
@@ -334,8 +347,7 @@ body.dark-theme .hero-badge {
     color: var(--gold);
 }
 
-.hero > .hero-inner > p,
-.hero-inner > p {
+.hero-content > p {
     font-size: 1.05rem;
     max-width: 580px;
     margin-bottom: 36px;
@@ -672,6 +684,9 @@ body.dark-theme .levels {
     .mobile-toggle { display: flex; }
 
     .hero { padding: 120px 24px 60px; min-height: auto; }
+    .hero-inner { grid-template-columns: 1fr; gap: 32px; }
+    .hero-image { order: -1; }
+    .hero-photo { max-width: 280px; }
     .hero-stats { flex-direction: column; }
     .stat { border-right: none; border-bottom: var(--border); padding: 18px 24px; }
     .stat:last-child { border-bottom: none; }
