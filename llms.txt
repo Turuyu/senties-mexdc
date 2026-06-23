@@ -1,33 +1,33 @@
-# Lázaro Cruz — Fianzas y Garantías para Infraestructura Crítica y Data Centers
+# Lázaro Cruz — Fianzas y Garantías para Proveedores GAP
 
-Lázaro Cruz es una firma de consultoría y corretaje de fianzas de alta especialización en México, con más de 30 años de experiencia estructurando líneas de afianzamiento y capacidad de emisión a gran escala. La firma asesora a contratistas EPC, integradores de misión crítica, proveedores tecnológicos y operadores de centros de datos para blindar jurídicamente sus contratos, cumplir con regulaciones y acelerar sus proyectos sin cuellos de botella financieros.
+Lázaro Cruz es agente afianzador especializado en programas corporativos de fianzas para proveedores y contratistas en México. Con 30 años de experiencia, estructura líneas de afianzamiento con emisión ágil y respaldo de las principales compañías afianzadoras del país.
 
 ## Información de Contacto
-- **Dirección**: Calle 20 #235, Plaza Luxus Local 201, Altabrisa, C.P. 97130, Mérida, Yucatán, México.
 - **Teléfono**: +52 (999) 127 4283
 - **Email**: contacto@lazarocruz.mx
+- **WhatsApp**: https://wa.me/5219991274283
+- **LinkedIn**: https://www.linkedin.com/in/l%C3%A1zaro-g-cruz-v%C3%A1zquez-8825a727/
 - **Sitio Web**: https://lazarocruz.mx/
-- **Director General / Suscriptor Clave**: Lázaro G. Cruz Vázquez (Agente certificado ante la CNSF)
 
-## Soluciones Sectoriales de Garantía
+## Servicios
+1. **Emisión y administración de fianzas** — Fianzas de cumplimiento, anticipo y buena calidad. Gestión integral desde solicitud hasta vigencia.
+2. **Programas corporativos** — Programas de afianzamiento a medida para infraestructura, construcción, desarrollo inmobiliario, hotelería e industria.
+3. **Gestión jurídica y reclamaciones** — Equipo legal especializado desde revisión contractual hasta cobro. Más de $130 MDP recuperados en 2 años.
+4. **SAI — Supplier Analysis** — Plataforma propia de análisis financiero y riesgo de proveedores. Score de salud, indicadores de riesgo, datos fiscales.
 
-### 1. Contratistas EPC (Ingeniería, Procura y Construcción)
-Alternativas de afianzamiento estructurado para la construcción civil y electromecánica de naves de almacenamiento digital, cimentaciones, y subestaciones eléctricas:
-- **Anticipo de Obra**: Asegura la aplicación correcta de los fondos adelantados para materiales y preparación del sitio.
-- **Cumplimiento Contractual**: Garantiza que el contratista complete las fases de obra civil según especificaciones técnicas.
-- **Vicios Ocultos / Buena Calidad**: Respalda desperfectos en los sistemas estructurales u obra civil del Data Center tras la entrega.
+## Socios Afianzadores
+Chubb, Tokio Marine, Berkley, Aserta, Avanza, Sofimex, Dorama, AVLA, Mapfre, CESCE, Atlas.
 
-### 2. Suministro Tecnológico y Misión Crítica
-Respaldos de cumplimiento de procura y entrega para proveedores e integradores de equipamiento pesado y precisión:
-- **Equipos Críticos**: Sistemas de UPS, plantas generadoras de diésel, chillers de enfriamiento líquido y climatización de precisión.
-- **Cumplimiento de Procura**: Garantías de cumplimiento en tiempos de entrega inbound de importaciones para evitar penalidades de retraso (SLA contractuales).
+## Niveles de Servicio
+- Emisión de fianza: 24 horas hábiles
+- Análisis SAI del fiado: 1 hora
+- Correcciones a fianzas: menos de 1 hora
+- Respuesta a correos: mismo día hábil
+- Reportes consolidados: quincenales
+- Acompañamiento en reclamaciones: hasta el pago
 
-### 3. Energía y Conectividad (Relaciones Reguladas)
-Fianzas de cumplimiento administrativo y operativo requeridas para la interconexión con el Sistema Eléctrico Nacional y despliegues de red:
-- **CFE / CRE**: Fianzas de cumplimiento para convenios de conexión de media y alta tensión requeridas para alimentar centros de datos.
-- **Conectividad de Red**: Garantías ante dependencias municipales y estatales para excavaciones y tendido aéreo/subterráneo de fibra óptica.
-
-## Diferenciales B2B y Capacidad de Colocación
-- **Capacidad Hyperscale**: Capacidad técnica para suscribir y sindicar fianzas de alta suma asegurada (reaseguro nacional y convenios de coafianzamiento).
-- **Emisión Express**: Precalificación corporativa y emisión en 24-48 horas de pólizas validadas electrónicamente.
-- **Compliance CNSF**: 100% de las fianzas registradas oficialmente ante la Comisión Nacional de Seguros y Fianzas (CNSF) bajo la Ley de Instituciones de Seguros y de Fianzas (LISF).
+## Cifras Clave
+- +19,500 fianzas emitidas (2025)
+- $57,200 MDP monto afianzado
+- +200 programas corporativos activos
+- +$130 MDP recuperados en reclamaciones (últimos 2 años)
