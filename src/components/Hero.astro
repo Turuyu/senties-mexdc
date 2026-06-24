@@ -1,0 +1,41 @@
+---
+import { Image } from 'astro:assets';
+import heroImage from '../assets/header-photo-2.jpg';
+---
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-content">
+      <span class="hero-badge">Agente afianzador · 30 años de experiencia</span>
+      <h1>Fianzas y garantías para <em>proveedores GAP</em></h1>
+      <p>Estructuramos programas corporativos de afianzamiento para proveedores y contratistas. Emisión ágil, respaldo de las principales afianzadoras de México y acompañamiento legal integral.</p>
+      <div class="hero-actions">
+        <a href="#contacto" class="btn btn-primary">Solicitar fianza <i class="fa-solid fa-arrow-right"></i></a>
+        <a href="#servicios" class="btn btn-outline">Ver servicios</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat">
+          <strong>+19,500</strong>
+          <span>Fianzas emitidas</span>
+        </div>
+        <div class="stat">
+          <strong>$57,200 MDP</strong>
+          <span>Monto afianzado</span>
+        </div>
+        <div class="stat">
+          <strong>+200</strong>
+          <span>Programas corporativos</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-image">
+      <Image
+        src={heroImage}
+        alt="Senties Chauvet - Fianzas y Garantías"
+        width={3171}
+        height={4756}
+        class="hero-photo"
+      />
+    </div>
+  </div>
+</section>
