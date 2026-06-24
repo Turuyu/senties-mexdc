@@ -3,23 +3,23 @@ import { z } from 'zod';
 // Re-declare schemas inline so this test file is self-contained
 // and does not depend on Astro content layer internals.
 const servicesSchema = z.object({
-  icon: z.string(),
-  title: z.string(),
-  description: z.string(),
-  order: z.number(),
-});
+  icon: z.string().min(1),
+  title: z.string().min(1),
+  description: z.string().min(1),
+  order: z.number().int().nonnegative(),
+}).strict();
 
 const partnersSchema = z.object({
-  name: z.string(),
-  order: z.number(),
-});
+  name: z.string().min(1),
+  order: z.number().int().nonnegative(),
+}).strict();
 
 const bondsSchema = z.object({
-  metric: z.string(),
-  title: z.string(),
-  description: z.string(),
-  order: z.number(),
-});
+  metric: z.string().min(1),
+  title: z.string().min(1),
+  description: z.string().min(1),
+  order: z.number().int().nonnegative(),
+}).strict();
 
 describe('Content Collection Schemas', () => {
   describe('services', () => {
