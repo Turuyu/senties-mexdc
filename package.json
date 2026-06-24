@@ -9,13 +9,17 @@
     "preview": "astro preview",
     "check": "astro check",
     "test": "vitest",
-    "test:e2e": "playwright"
+    "test:e2e": "playwright",
+    "lighthouse": "npm run build && npx lighthouse http://localhost:4321 --output=json --output-path=dist/lh-report.json --chrome-flags='--headless --no-sandbox' --quiet"
   },
-  "dependencies": {},
   "devDependencies": {
     "@astrojs/check": "^0.9.0",
+    "@axe-core/playwright": "^4.12.1",
     "@playwright/test": "^1.49.0",
+    "@vitest/ui": "^4.1.9",
     "astro": "^5.0.0",
+    "jsdom": "^29.1.1",
+    "lighthouse": "^13.4.0",
     "sharp": "^0.33.0",
     "typescript": "^5.7.0",
     "vitest": "^2.0.0"
