@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Astro build artifacts
+.astro/
+
+# Playwright
+playwright-report/
+test-results/
+
+# Logs
+*.log
+
+# Environment
+.env*
+!.env.example
+
+# OS
+.DS_Store
