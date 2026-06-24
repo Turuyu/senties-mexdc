@@ -1,0 +1,15 @@
+---
+import Layout from '../layouts/Layout.astro';
+import '../styles/global.css';
+---
+
+<Layout>
+  <!-- Smoke-test: PR 1 verifies Astro boots and Layout renders.
+       Header, Hero, Services, Partners, Levels, Contact, Footer
+       are added in PRs 2–4. -->
+  <main style="min-height: 100vh; display: flex; align-items: center; justify-content: center;">
+    <p style="color: var(--text-secondary); font-family: var(--font-body);">
+      Senties Chauvet · Fianzas y Garantías — Astro foundation ready
+    </p>
+  </main>
+</Layout>
