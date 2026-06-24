@@ -2,25 +2,27 @@
 // + Escape key closes, link click closes, focus trap
 
 export function initMobileMenu(): void {
-  const toggle = document.querySelector('.mobile-toggle');
+  const toggle = document.querySelector<HTMLElement>('.mobile-toggle');
   const menu = document.getElementById('mobileMenu');
 
   if (!toggle || !menu) return;
+  const t = toggle;
+  const m = menu;
 
   function open(): void {
-    menu.classList.add('open');
-    toggle.setAttribute('aria-expanded', 'true');
+    m.classList.add('open');
+    t.setAttribute('aria-expanded', 'true');
     animateBars(true);
   }
 
   function close(): void {
-    menu.classList.remove('open');
-    toggle.setAttribute('aria-expanded', 'false');
+    m.classList.remove('open');
+    t.setAttribute('aria-expanded', 'false');
     animateBars(false);
   }
 
   function animateBars(isOpen: boolean): void {
-    const bars = toggle.querySelectorAll<HTMLElement>('span');
+    const bars = t.querySelectorAll<HTMLElement>('span');
     if (isOpen) {
       bars[0].style.transform = 'rotate(45deg) translate(4px, 4px)';
       bars[1].style.opacity = '0';
@@ -32,8 +34,8 @@ export function initMobileMenu(): void {
     }
   }
 
-  toggle.addEventListener('click', () => {
-    const isOpen = menu.classList.contains('open');
+  t.addEventListener('click', () => {
+    const isOpen = m.classList.contains('open');
     if (isOpen) {
       close();
     } else {
@@ -42,24 +44,24 @@ export function initMobileMenu(): void {
   });
 
   // Link click closes menu
-  menu.querySelectorAll('a').forEach((link) => {
+  m.querySelectorAll('a').forEach((link) => {
     link.addEventListener('click', close);
   });
 
   // Escape key closes menu
   document.addEventListener('keydown', (e: KeyboardEvent) => {
-    if (e.key === 'Escape' && menu.classList.contains('open')) {
+    if (e.key === 'Escape' && m.classList.contains('open')) {
       close();
-      toggle.focus();
+      t.focus();
     }
   });
 
   // Focus trap inside menu
-  menu.addEventListener('keydown', (e: KeyboardEvent) => {
+  m.addEventListener('keydown', (e: KeyboardEvent) => {
     if (e.key !== 'Tab') return;
 
     const focusable = Array.from(
-      menu.querySelectorAll<HTMLElement>('a[href], button')
+      m.querySelectorAll<HTMLElement>('a[href], button')
     ).filter((el) => !el.hasAttribute('disabled'));
 
     if (focusable.length === 0) return;
