@@ -1,6 +1,6 @@
-# New-Lazaro — Astro 5 Static Landing Site
+# Senties Chauvet — Fianzas para Data Centers | MEXDC
 
-Static landing site for Lázaro Cruz (financial services). Built with Astro 5 + TypeScript, deployed to `dist/` as a fully static site.
+Landing page de Senties Chauvet, agente afianzador miembro de la Asociación Mexicana de Data Centers (MEXDC). Built with Astro 5 + TypeScript, deployed to `dist/` as a fully static site.
 
 ## Stack
 
@@ -39,7 +39,7 @@ To add a new service, partner, or bond type, create a `.md` file in the appropri
 ## Sections
 
 - `#servicios` — Services offered
-- `#niveles` — Bond/plan tiers
+- `#niveles` — Service level commitments
 - `#contacto` — Contact section
 
 Anchor navigation with smooth scrolling is enabled site-wide.

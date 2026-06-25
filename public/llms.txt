@@ -1,6 +1,6 @@
-# Senties Chauvet — Fianzas y Garantías
+# Senties Chauvet — Fianzas para la Industria de Data Centers | MEXDC
 
-Senties Chauvet es especialista en garantías de fianzas y caución. Con más de 30 años de experiencia, se ha posicionado como uno de los principales brokers de fianzas en México, ofreciendo corretaje, líneas de afianzamiento, asesoría jurídica y consultoría técnica.
+Senties Chauvet es un agente afianzador especializado en programas corporativos de fianzas para el ecosistema de data centers en México. Con más de 30 años de experiencia, es miembro activo de la Asociación Mexicana de Data Centers (MEXDC), ofreciendo corretaje, líneas de afianzamiento, asesoría jurídica y consultoría técnica para operadores, proveedores y contratistas del sector.
 
 ## Información de Contacto
 - **Teléfono**: +52 (55) 5200 2200
@@ -10,11 +10,11 @@ Senties Chauvet es especialista en garantías de fianzas y caución. Con más de
 - **Sitio Web**: https://senties-chauvet.com.mx/
 
 ## Servicios
-1. **Corretaje** — Gestión ante las principales afianzadoras del país.
-2. **Líneas de afianzamiento** — Apertura y administración de programas corporativos.
-3. **Asesoría jurídica** — Atención especializada en reclamaciones para grandes beneficiarios.
-4. **Esquemas de garantías** — Diseño personalizado para proveedores y contratistas.
-5. **Consultoría técnica** — Análisis y evaluación de riesgos.
+1. **Corretaje** — Gestión ante las principales afianzadoras del país para el ecosistema de data centers.
+2. **Líneas de afianzamiento** — Apertura y administración de programas corporativos para operadores y proveedores.
+3. **Asesoría jurídica** — Atención especializada en reclamaciones para el sector de infraestructura tecnológica.
+4. **Esquemas de garantías** — Diseño personalizado para proveedores y contratistas del ecosistema MEXDC.
+5. **Consultoría técnica** — Análisis y evaluación de riesgos para proyectos de infraestructura de data centers.
 
 ## Tipos de Fianzas
 - **Fidelidad** (global y específica)
@@ -37,3 +37,4 @@ Chubb, Tokio Marine, Berkley, Insurgentes, Aserta, Avanza, Sofimex, Dorama, AVLA
 - Top 5 brokers de fianzas en México
 - +30 años de experiencia
 - +2,000 clientes
+- Miembro activo de MEXDC (Asociación Mexicana de Data Centers)
