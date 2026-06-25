@@ -44,13 +44,13 @@ body.dark-theme {
     --bg: #0f0f0f;
     --bg-alt: #161616;
     --surface: #1a1a1a;
-    --primary: #254662;
+    --primary: #5a8aaa;
     --primary-light: #3a6a8a;
     --accent: #FF7530;
     --accent-light: #FF9A66;
     --text: #e8e8e8;
     --text-secondary: #a0a0a0;
-    --text-tertiary: #6a6a6a;
+    --text-tertiary: #9a9a9a;
     --border: 1px solid rgba(255, 255, 255, 0.06);
     --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
     --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
@@ -541,7 +541,7 @@ body.dark-theme .levels {
     margin-bottom: 12px;
 }
 
-.level-item h4 {
+.level-item h3 {
     color: #fff;
     margin-bottom: 8px;
     font-size: 0.95rem;

@@ -17,7 +17,7 @@ const bonds = (await getCollection('bonds')).sort(
       {bonds.map((bond) => (
         <div class="level-item">
           <span class="level-number">{bond.data.metric}</span>
-          <h4>{bond.data.title}</h4>
+          <h3>{bond.data.title}</h3>
           <p>{bond.data.description}</p>
         </div>
       ))}
