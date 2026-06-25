@@ -1,8 +1,9 @@
 import { defineConfig } from 'astro/config';
 
-// https://senties-chauvet.com.mx/ — static site
+// https://senties-chauvet.com.mx/mexdc — static site
 export default defineConfig({
   site: 'https://senties-chauvet.com.mx/',
+  base: '/mexdc',
   output: 'static',
   image: {
     service: {
