@@ -1,9 +1,9 @@
 import { defineConfig } from 'astro/config';
 
-// https://turuyu.github.io/new-lazaro/ — GH Pages
+// https://turuyu.github.io/senties-mexdc/ — GH Pages
 export default defineConfig({
   site: 'https://turuyu.github.io',
-  base: '/new-lazaro',
+  base: '/senties-mexdc',
   output: 'static',
   image: {
     service: {
