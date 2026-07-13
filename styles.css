@@ -108,9 +108,9 @@ a { color: inherit; text-decoration: none; transition: color 0.2s; }
     margin-bottom: 16px;
 }
 
-.section-header { margin-bottom: 48px; }
+.section-header { margin-bottom: 64px; text-align: center; }
 .section-header .section-label { margin-bottom: 12px; }
-.section-desc { max-width: 560px; font-size: 1rem; }
+.section-desc { max-width: 560px; font-size: 1rem; margin: 0 auto; }
 
 /* Buttons */
 .btn {
@@ -412,7 +412,7 @@ body.dark-theme .hero-badge { background: rgba(37, 70, 98, 0.12); }
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 16px;
-  margin: 40px 0 32px;
+  margin: 56px 0 40px;
 }
 .mexdc-logo-card {
   display: flex;
@@ -486,7 +486,8 @@ body.dark-theme .hero-badge { background: rgba(37, 70, 98, 0.12); }
 .sai .sai-label,
 .sai .section-label { color: rgba(255, 255, 255, 0.7); }
 .sai h2 { color: #fff; margin-bottom: 16px; }
-.sai-desc { color: rgba(255, 255, 255, 0.75); font-size: 1.05rem; }
+.sai-content { padding-top: 8px; }
+.sai-desc { color: rgba(255, 255, 255, 0.75); font-size: 1.05rem; margin-bottom: 32px; }
 
 .sai-differentiators {
   list-style: none;
