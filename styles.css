@@ -26,6 +26,27 @@
     --font-heading: 'Playfair Display', serif;
     --font-body: 'Inter', sans-serif;
     --max-width: 1120px;
+
+    /* SAI section */
+    --sai-bg: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    --sai-surface: rgba(255, 255, 255, 0.06);
+    --sai-surface-border: rgba(255, 255, 255, 0.10);
+
+    /* Accent glow for SAI callout */
+    --accent-glow: 0 0 0 1px rgba(255, 117, 48, 0.30), 0 4px 24px rgba(255, 117, 48, 0.25);
+
+    /* MEXDC Partner badge */
+    --badge-mexdc-bg: rgba(0, 43, 73, 0.08);
+    --badge-mexdc-bg-hover: rgba(0, 43, 73, 0.14);
+    --badge-mexdc-icon-bg: rgba(255, 117, 48, 0.12);
+
+    /* MEXDC logo grid */
+    --mexdc-logo-card-border: 1px solid rgba(0, 0, 0, 0.05);
+    --mexdc-logo-card-shadow: var(--shadow-sm);
+    --mexdc-logo-card-shadow-hover: 0 8px 20px rgba(0, 0, 0, 0.08);
+
+    /* Section spacing helper */
+    --section-pad: 80px 24px;
 }
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -55,6 +76,10 @@ body.dark-theme {
     --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
     --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
     --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.5);
+
+    --badge-mexdc-bg: rgba(37, 70, 98, 0.18);
+    --badge-mexdc-bg-hover: rgba(37, 70, 98, 0.28);
+    --mexdc-logo-card-border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 h1, h2, h3, h4 {
@@ -293,6 +318,13 @@ body.dark-theme .header {
 }
 body.dark-theme .hero-badge { background: rgba(37, 70, 98, 0.12); }
 
+.hero-badge--mexdc {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+.hero-badge-check { color: var(--accent); font-size: 0.85rem; }
+
 .hero h1 { max-width: 700px; margin-bottom: 24px; }
 .hero h1 em { font-style: italic; color: var(--accent); }
 .hero-content > p { font-size: 1.05rem; max-width: 580px; margin-bottom: 36px; }
@@ -340,7 +372,7 @@ body.dark-theme .hero-badge { background: rgba(37, 70, 98, 0.12); }
 
 .services-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 20px;
 }
 
@@ -367,6 +399,151 @@ body.dark-theme .hero-badge { background: rgba(37, 70, 98, 0.12); }
 }
 .service-card h3 { margin-bottom: 10px; }
 .service-card p { font-size: 0.9rem; }
+
+/* ── MEXDC Trust Section ── */
+.mexdc-trust { padding: var(--section-pad); }
+.mexdc-trust-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  text-align: center;
+}
+
+.mexdc-logo-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+  margin: 40px 0 32px;
+}
+.mexdc-logo-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface);
+  border: var(--mexdc-logo-card-border);
+  border-radius: var(--radius-md);
+  padding: 24px 16px;
+  height: 96px;
+  box-shadow: var(--mexdc-logo-card-shadow);
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+.mexdc-logo-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--mexdc-logo-card-shadow-hover);
+}
+.mexdc-logo-card img {
+  max-height: 48px;
+  max-width: 100%;
+  width: auto;
+  object-fit: contain;
+  filter: grayscale(0.4);
+  opacity: 0.85;
+  transition: filter 0.25s, opacity 0.25s;
+}
+.mexdc-logo-card:hover img { filter: grayscale(0); opacity: 1; }
+
+/* Partner badge pill */
+.mexdc-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: var(--badge-mexdc-bg);
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--primary);
+  transition: background 0.2s, transform 0.2s;
+}
+.mexdc-badge:hover {
+  background: var(--badge-mexdc-bg-hover);
+  transform: translateY(-1px);
+}
+.mexdc-badge-icon {
+  display: inline-flex;
+  width: 22px; height: 22px;
+  align-items: center; justify-content: center;
+  background: var(--badge-mexdc-icon-bg);
+  color: var(--accent);
+  border-radius: 50%;
+  font-size: 0.7rem;
+}
+.mexdc-badge-ext { font-size: 0.65rem; opacity: 0.55; }
+
+/* ── SAI Section ── */
+.sai {
+  padding: var(--section-pad);
+  background: var(--sai-bg);
+  color: var(--text-inverse);
+}
+.sai-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 56px;
+  align-items: center;
+}
+.sai .sai-label,
+.sai .section-label { color: rgba(255, 255, 255, 0.7); }
+.sai h2 { color: #fff; margin-bottom: 16px; }
+.sai-desc { color: rgba(255, 255, 255, 0.75); font-size: 1.05rem; }
+
+.sai-differentiators {
+  list-style: none;
+  margin: 32px 0 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+.sai-differentiators li {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.sai-differentiators strong { color: #fff; display: block; font-size: 0.95rem; }
+.sai-differentiators span { color: rgba(255, 255, 255, 0.6); font-size: 0.85rem; }
+.sai-diff-icon {
+  width: 36px; height: 36px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--sai-surface);
+  border: 1px solid var(--sai-surface-border);
+  border-radius: var(--radius-sm);
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+/* The "1 hora" callout */
+.sai-highlight {
+  background: var(--sai-surface);
+  border: 1px solid var(--sai-surface-border);
+  border-radius: var(--radius-lg);
+  padding: 40px 32px;
+  text-align: center;
+}
+.sai-callout-label {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 16px;
+}
+.sai-callout {
+  font-family: var(--font-heading);
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  line-height: 1.2;
+  color: #fff;
+  margin-bottom: 16px;
+}
+.sai-callout strong { color: var(--accent); font-weight: 500; }
+.sai-callout-note {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.85rem;
+}
+.sai-highlight:hover .sai-callout strong {
+  text-shadow: var(--accent-glow);
+}
 
 /* ==========================================================================
    PARTNERS
@@ -495,6 +672,15 @@ body.dark-theme .levels { background: #001a2e; }
 .footer p { font-size: 0.8rem; color: var(--text-tertiary); }
 .footer-note { margin-top: 8px; font-size: 0.75rem !important; }
 
+.footer-note a {
+  color: var(--accent);
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 117, 48, 0.4);
+  text-underline-offset: 2px;
+}
+.footer-note a:hover { text-decoration-color: var(--accent); }
+
 /* ==========================================================================
    FLOATING WHATSAPP
    ========================================================================== */
@@ -543,6 +729,26 @@ body.dark-theme .levels { background: #001a2e; }
     .contact-inner { text-align: left; }
     .contact-info { gap: 10px; }
     .header-inner { gap: 12px; }
+
+    /* MEXDC logo grid — horizontal scroll on mobile */
+    .mexdc-logo-grid {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      gap: 12px;
+      padding-bottom: 8px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .mexdc-logo-card {
+      flex: 0 0 140px;
+      scroll-snap-align: start;
+    }
+    .mexdc-logo-grid::-webkit-scrollbar { display: none; }
+    .mexdc-logo-grid { scrollbar-width: none; }
+
+    /* SAI section — single column on mobile */
+    .sai-inner { grid-template-columns: 1fr; }
+    .sai-highlight { order: 2; }
 }
 
 @media (max-width: 480px) {
