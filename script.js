@@ -1,10 +1,11 @@
 // script.js — Senties Chauvet vanilla JS
-// Handles: theme toggle, mobile menu, header scroll
+// Handles: theme toggle, mobile menu, header scroll, hero video
 
 document.addEventListener('DOMContentLoaded', () => {
   initTheme();
   initMobileMenu();
   initHeaderScroll();
+  initHeroVideo();
 });
 
 // ─── Theme ───────────────────────────────────────────────────────────────────
@@ -42,12 +43,16 @@ function initMobileMenu() {
 
   function open() {
     menu.classList.add('open');
+    // The burger sits on the hero video, so its bars are white by default.
+    // Over the opened menu they need to flip to the canvas text colour.
+    document.body.classList.add('menu-open');
     toggle.setAttribute('aria-expanded', 'true');
     animateBars(true);
   }
 
   function close() {
     menu.classList.remove('open');
+    document.body.classList.remove('menu-open');
     toggle.setAttribute('aria-expanded', 'false');
     animateBars(false);
   }
@@ -120,4 +125,39 @@ function initHeaderScroll() {
   window.addEventListener('scroll', () => {
     header.classList.toggle('scrolled', window.scrollY > 20);
   }, { passive: true });
+}
+
+// ─── Hero Video ──────────────────────────────────────────────────────────────
+
+// The reel plays as ambient background: no controls, no sound. Browsers only
+// permit unattended playback while muted, so muted is a requirement, not a
+// preference. Playback pauses once the hero scrolls away to spare CPU.
+function initHeroVideo() {
+  const video = document.querySelector('.hero-video');
+  if (!video) return;
+
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    video.removeAttribute('autoplay');
+    video.pause();
+    return;
+  }
+
+  video.muted = true;
+  // play() rejects when the browser refuses anyway (iOS Low Power Mode, data
+  // saver). The poster frame stays visible as the fallback.
+  video.play().catch(() => {});
+
+  if (!('IntersectionObserver' in window)) return;
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) video.play().catch(() => {});
+        else video.pause();
+      });
+    },
+    { threshold: 0.15 }
+  );
+
+  observer.observe(video);
 }
