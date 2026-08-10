@@ -786,8 +786,37 @@ body.menu-open .mobile-toggle span { background: var(--text); }
    FOOTER
    ========================================================================== */
 
-.footer { padding: 26px 32px 34px; text-align: center; }
+.footer { padding: 46px 32px 38px; text-align: center; }
 .footer-inner { max-width: var(--max-width); margin: 0 auto; }
+
+.footer-brands {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(24px, 4vw, 46px);
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.footer-logo { width: auto; object-fit: contain; }
+
+/* The two marks have very different proportions — Senties is a wide
+   wordmark, Lazaro Cruz a near-square stacked lockup — so they are sized
+   for optical balance instead of matched pixel heights. */
+.footer-logo--senties { max-height: 40px; }
+.footer-logo--lazaro { max-height: 68px; }
+
+.footer-brands-sep {
+    width: 1px;
+    align-self: stretch;
+    min-height: 46px;
+    background: rgba(0, 0, 0, 0.12);
+}
+
+/* The navy wordmark all but vanishes on the dark canvas; the gold Lazaro
+   mark holds its own, so only Senties is inverted. */
+body.dark-theme .footer-logo--senties { filter: brightness(0) invert(1); }
+body.dark-theme .footer-brands-sep { background: rgba(255, 255, 255, 0.14); }
 .footer p { font-size: 0.79rem; color: var(--text-tertiary); }
 .footer-note { margin-top: 7px; font-size: 0.74rem !important; }
 .footer-note a {
@@ -866,6 +895,9 @@ body.menu-open .mobile-toggle span { background: var(--text); }
 
     .contact-info { grid-template-columns: 1fr; }
     .logo-grid { grid-template-columns: repeat(2, 1fr); }
+
+    /* A vertical rule reads as debris once the marks wrap onto two lines */
+    .footer-brands-sep { display: none; }
 }
 
 @media (max-width: 480px) {
