@@ -21,5 +21,9 @@ test-results/
 # OS
 .DS_Store
 
+# Video master — keep local only. The web-optimized derivative
+# (assets/senties-video.mp4) is what ships.
+assets/Video-Senties_Color.mp4
+
 # Editor / tool config (local to each developer)
 opencode.json
