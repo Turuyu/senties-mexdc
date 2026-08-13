@@ -39,8 +39,12 @@
     --shadow-md: 0 6px 18px rgba(0, 0, 0, 0.07);
     --shadow-lg: 0 18px 50px rgba(0, 0, 0, 0.1);
 
-    --font-heading: 'Playfair Display', serif;
-    --font-body: 'Inter', sans-serif;
+    /* Three roles, deliberately separate. The serif carries display type only;
+       prose and UI chrome stay on the sans. Collapsing display and UI into one
+       variable is what breaks the moment the display face is a serif. */
+    --font-display: 'IBM Plex Serif', Georgia, serif;
+    --font-body: 'IBM Plex Sans', system-ui, sans-serif;
+    --font-ui: 'IBM Plex Sans', system-ui, sans-serif;
 
     --max-width: 1180px;
     --shell-pad: 14px;
@@ -100,16 +104,28 @@ body {
 }
 
 h1, h2, h3, h4 {
-    font-family: var(--font-heading);
-    font-weight: 500;
-    letter-spacing: -0.02em;
-    line-height: 1.12;
+    line-height: 1.14;
     color: var(--text);
+}
+
+/* A serif at display size wants a lighter weight and far less negative
+   tracking than a geometric sans — the serifs collide otherwise. */
+h1, h2, h4 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.005em;
 }
 
 h1 { font-size: clamp(2.1rem, 5vw, 3.7rem); }
 h2 { font-size: clamp(1.6rem, 3.4vw, 2.6rem); }
-h3 { font-size: 1.1rem; font-weight: 600; font-family: var(--font-body); letter-spacing: -0.01em; }
+
+/* Card titles are UI, not display — they stay on the sans. */
+h3 {
+    font-family: var(--font-ui);
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
 
 p { color: var(--text-secondary); line-height: 1.7; }
 
@@ -120,6 +136,7 @@ a { color: inherit; text-decoration: none; transition: color 0.2s; }
 
 .section-label {
     display: inline-block;
+    font-family: var(--font-ui);
     font-size: 0.68rem;
     font-weight: 600;
     text-transform: uppercase;
@@ -140,7 +157,7 @@ a { color: inherit; text-decoration: none; transition: color 0.2s; }
     align-items: center;
     gap: 9px;
     padding: 14px 26px;
-    font-family: var(--font-body);
+    font-family: var(--font-ui);
     font-size: 0.9rem;
     font-weight: 500;
     border-radius: var(--radius-pill);
@@ -276,6 +293,7 @@ body.dark-theme .header.scrolled .logo-img { filter: brightness(0) invert(1); }
 .nav a {
     padding: 8px 18px;
     border-radius: var(--radius-pill);
+    font-family: var(--font-ui);
     font-size: 0.85rem;
     font-weight: 500;
     color: rgba(255, 255, 255, 0.88);
@@ -377,7 +395,7 @@ body.menu-open .mobile-toggle span { background: var(--text); }
     gap: 30px;
 }
 .mobile-menu.open { display: flex; }
-.mobile-menu a { font-size: 1.3rem; color: var(--text); font-weight: 500; }
+.mobile-menu a { font-family: var(--font-ui); font-size: 1.3rem; color: var(--text); font-weight: 500; }
 .mobile-cta {
     display: inline-flex;
     align-items: center;
@@ -437,6 +455,7 @@ body.menu-open .mobile-toggle span { background: var(--text); }
     display: inline-flex;
     align-items: center;
     gap: 9px;
+    font-family: var(--font-ui);
     font-size: 0.74rem;
     font-weight: 500;
     color: #fff;
@@ -477,7 +496,7 @@ body.menu-open .mobile-toggle span { background: var(--text); }
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
 }
 .glass-stat strong {
-    font-family: var(--font-heading);
+    font-family: var(--font-display);
     font-size: 1.9rem;
     font-weight: 500;
     color: #fff;
@@ -525,7 +544,7 @@ body.menu-open .mobile-toggle span { background: var(--text); }
 }
 .figure { display: flex; flex-direction: column; gap: 6px; }
 .figure strong {
-    font-family: var(--font-heading);
+    font-family: var(--font-display);
     font-size: clamp(1.6rem, 3vw, 2.5rem);
     font-weight: 500;
     color: var(--text);
@@ -543,11 +562,6 @@ body.menu-open .mobile-toggle span { background: var(--text); }
     gap: 14px;
     margin-bottom: 36px;
 }
-.logo-grid--partners {
-    grid-template-columns: repeat(auto-fit, minmax(158px, 1fr));
-    margin-bottom: 0;
-}
-
 .logo-card {
     display: flex;
     align-items: center;
@@ -569,16 +583,85 @@ body.menu-open .mobile-toggle span { background: var(--text); }
     max-width: 100%;
     width: auto;
     object-fit: contain;
-    filter: grayscale(0.4);
-    opacity: 0.85;
-    transition: filter 0.25s, opacity 0.25s;
+    filter: grayscale(1);
+    opacity: 0.7;
+    transition: filter 0.3s, opacity 0.3s;
 }
 .logo-card:hover img { filter: grayscale(0); opacity: 1; }
 
 /* Sofimex and AVLA only ship white-on-transparent marks, which vanish on a
-   white tile. Inverting paints them black so they read like the rest. */
-.logo-card--invert img { filter: invert(1); opacity: 0.7; }
+   white tile. Inverting paints them black so they read like the rest. Those two
+   carry no colour to reveal, so opacity alone answers the hover. */
+.logo-card--invert img { filter: invert(1); opacity: 0.55; }
 .logo-card--invert:hover img { filter: invert(1); opacity: 1; }
+
+/* Touch devices never fire hover, so the reveal would strand every logo in
+   grey. There they simply stay in full colour. */
+@media (hover: none) {
+    .logo-card img { filter: grayscale(0); opacity: 1; }
+    .logo-card--invert img { filter: invert(1); opacity: 1; }
+}
+
+/* ==========================================================================
+   LOGO MARQUEE — partners rail
+   ========================================================================== */
+
+.logo-marquee {
+    --marquee-gap: 14px;
+    display: flex;
+    gap: var(--marquee-gap);
+    /* Vertical room so the card lift and its shadow are not cropped by the
+       horizontal clipping the rail needs. */
+    padding: 18px 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+.logo-marquee::-webkit-scrollbar { display: none; }
+
+/* A seamless loop is only possible once script.js has cloned the track. Until
+   then — and if JS never runs — the rail stays a plain scrollable row. */
+.logo-marquee.is-animated {
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+
+.logo-marquee-track {
+    display: flex;
+    gap: var(--marquee-gap);
+    flex-shrink: 0;
+}
+.logo-marquee.is-animated .logo-marquee-track {
+    animation: logo-marquee 45s linear infinite;
+}
+
+/* Pausing is not decoration: a moving target fights the pointer trying to
+   reach it for the colour reveal. focus-within covers keyboard users. */
+.logo-marquee.is-animated:hover .logo-marquee-track,
+.logo-marquee.is-animated:focus-within .logo-marquee-track {
+    animation-play-state: paused;
+}
+
+/* Matches the ~176px the auto-fit grid resolved to, so the marks keep the
+   breathing room they had and do not read as suddenly shrunken. */
+.logo-marquee .logo-card {
+    width: 176px;
+    flex-shrink: 0;
+}
+
+@keyframes logo-marquee {
+    to { transform: translateX(calc(-100% - var(--marquee-gap))); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .logo-marquee .logo-marquee-track[aria-hidden="true"] { display: none; }
+    .logo-marquee.is-animated {
+        overflow-x: auto;
+        -webkit-mask-image: none;
+        mask-image: none;
+    }
+    .logo-marquee.is-animated .logo-marquee-track { animation: none; }
+}
 
 /* MEXDC badge pill */
 .mexdc-badge {
@@ -662,13 +745,15 @@ body.menu-open .mobile-toggle span { background: var(--text); }
     margin-bottom: 14px;
 }
 .sai-callout {
-    font-family: var(--font-heading);
+    font-family: var(--font-display);
     font-size: 1.6rem;
+    font-weight: 400;
     line-height: 1.2;
+    letter-spacing: -0.005em;
     color: #fff !important;
     margin-bottom: 14px;
 }
-.sai-callout strong { color: var(--accent-light); font-weight: 500; }
+.sai-callout strong { color: var(--accent-light); font-weight: 600; }
 .sai-callout-note { font-size: 0.85rem; color: rgba(255, 255, 255, 0.6); line-height: 1.65; }
 
 /* ==========================================================================
@@ -726,10 +811,10 @@ body.menu-open .mobile-toggle span { background: var(--text); }
 .level-row:hover { background: rgba(255, 255, 255, 0.07); }
 
 .level-index { font-size: 0.78rem; color: rgba(255, 255, 255, 0.4); letter-spacing: 0.05em; }
-.level-name { font-size: 0.98rem; font-weight: 500; color: #fff; }
+.level-name { font-family: var(--font-ui); font-size: 0.98rem; font-weight: 500; color: #fff; }
 .level-note { font-size: 0.85rem; color: rgba(255, 255, 255, 0.55); }
 .level-value {
-    font-family: var(--font-heading);
+    font-family: var(--font-display);
     font-size: 1.15rem;
     color: var(--accent-light);
     white-space: nowrap;
@@ -780,7 +865,7 @@ body.menu-open .mobile-toggle span { background: var(--text); }
     color: var(--text-tertiary);
     margin-bottom: 3px;
 }
-.contact-item span { font-size: 0.95rem; color: var(--text); font-weight: 500; }
+.contact-item span { font-family: var(--font-ui); font-size: 0.95rem; color: var(--text); font-weight: 500; }
 
 /* ==========================================================================
    FOOTER

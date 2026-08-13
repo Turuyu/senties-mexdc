@@ -7,8 +7,10 @@
   <title>Senties Chauvet · Fianzas y Garantías para Data Centers</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- ?v= is the cache key. Bump it whenever styles.css or script.js changes,
+       otherwise returning visitors keep running the previously cached copy. -->
+  <link rel="stylesheet" href="styles.css?v=2">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
   <link rel="icon" type="image/jpeg" sizes="180x180" href="assets/cropped-Fav-icon-180x180.jpg">
@@ -250,39 +252,43 @@
             <h2>Respaldados por <span class="tone-soft">las principales afianzadoras de México</span></h2>
             <p class="section-desc">Las fianzas que emitimos cuentan con el respaldo de aseguradoras autorizadas por la CNSF. Emisoras, no operadoras: son las que asumen el riesgo afianzador.</p>
           </div>
-          <div class="logo-grid logo-grid--partners" role="list">
-            <div class="logo-card" role="listitem">
-              <img src="assets/berkley-logo.png" alt="Berkley" loading="lazy">
-            </div>
-            <div class="logo-card" role="listitem">
-              <img src="assets/Logo_Dorama.png" alt="Dorama" loading="lazy">
-            </div>
-            <div class="logo-card" role="listitem">
-              <img src="assets/logo-tokio.png" alt="Tokio Marine" loading="lazy">
-            </div>
-            <div class="logo-card" role="listitem">
-              <img src="assets/INSURGENTES-01.png" alt="Insurgentes" loading="lazy">
-            </div>
-            <div class="logo-card" role="listitem">
-              <img src="assets/logo-avanza-fianzas.svg" alt="Avanza Fianzas" loading="lazy">
-            </div>
-            <div class="logo-card" role="listitem">
-              <img src="assets/chubb.webp" alt="Chubb" loading="lazy">
-            </div>
-            <div class="logo-card" role="listitem">
-              <img src="assets/logo-mapfre.webp" alt="Mapfre" loading="lazy">
-            </div>
-            <div class="logo-card" role="listitem">
-              <img src="assets/logo-atlas.png" alt="Atlas" loading="lazy">
-            </div>
-            <div class="logo-card logo-card--invert" role="listitem">
-              <img src="assets/sofimex.png" alt="Sofimex" loading="lazy">
-            </div>
-            <div class="logo-card" role="listitem">
-              <img src="assets/logo-vector-aserta.webp" alt="Aserta" loading="lazy">
-            </div>
-            <div class="logo-card logo-card--invert" role="listitem">
-              <img src="assets/avla-logo.svg" alt="AVLA" loading="lazy">
+          <!-- One track is authored; script.js clones it as many times as the
+               rail needs to loop seamlessly. Add or remove a logo here only. -->
+          <div class="logo-marquee" data-marquee>
+            <div class="logo-marquee-track" role="list">
+              <div class="logo-card" role="listitem">
+                <img src="assets/berkley-logo.png" alt="Berkley" loading="lazy">
+              </div>
+              <div class="logo-card" role="listitem">
+                <img src="assets/Logo_Dorama.png" alt="Dorama" loading="lazy">
+              </div>
+              <div class="logo-card" role="listitem">
+                <img src="assets/logo-tokio.png" alt="Tokio Marine" loading="lazy">
+              </div>
+              <div class="logo-card" role="listitem">
+                <img src="assets/INSURGENTES-01.png" alt="Insurgentes" loading="lazy">
+              </div>
+              <div class="logo-card" role="listitem">
+                <img src="assets/logo-avanza-fianzas.svg" alt="Avanza Fianzas" loading="lazy">
+              </div>
+              <div class="logo-card" role="listitem">
+                <img src="assets/chubb.webp" alt="Chubb" loading="lazy">
+              </div>
+              <div class="logo-card" role="listitem">
+                <img src="assets/logo-mapfre.webp" alt="Mapfre" loading="lazy">
+              </div>
+              <div class="logo-card" role="listitem">
+                <img src="assets/logo-atlas.png" alt="Atlas" loading="lazy">
+              </div>
+              <div class="logo-card logo-card--invert" role="listitem">
+                <img src="assets/sofimex.png" alt="Sofimex" loading="lazy">
+              </div>
+              <div class="logo-card" role="listitem">
+                <img src="assets/logo-vector-aserta.webp" alt="Aserta" loading="lazy">
+              </div>
+              <div class="logo-card logo-card--invert" role="listitem">
+                <img src="assets/avla-logo.svg" alt="AVLA" loading="lazy">
+              </div>
             </div>
           </div>
         </div>
@@ -405,6 +411,6 @@
     <i class="fa-brands fa-whatsapp"></i>
   </a>
 
-  <script src="script.js"></script>
+  <script src="script.js?v=2"></script>
 </body>
 </html>

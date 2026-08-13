@@ -1,11 +1,12 @@
 // script.js — Senties Chauvet vanilla JS
-// Handles: theme toggle, mobile menu, header scroll, hero video
+// Handles: theme toggle, mobile menu, header scroll, hero video, logo marquee
 
 document.addEventListener('DOMContentLoaded', () => {
   initTheme();
   initMobileMenu();
   initHeaderScroll();
   initHeroVideo();
+  initLogoMarquee();
 });
 
 // ─── Theme ───────────────────────────────────────────────────────────────────
@@ -160,4 +161,39 @@ function initHeroVideo() {
   );
 
   observer.observe(video);
+}
+
+// ─── Logo Marquee ────────────────────────────────────────────────────────────
+
+// The partners rail loops by translating each track exactly one track-width to
+// the left, so the next copy lands where the previous one started. That only
+// reads as continuous while the tracks together span more than the visible
+// rail — hence cloning until they cover it twice, rather than assuming two
+// copies is always enough. The markup carries a single track so a logo is only
+// ever added in one place.
+function initLogoMarquee() {
+  const marquee = document.querySelector('[data-marquee]');
+  if (!marquee) return;
+
+  const track = marquee.querySelector('.logo-marquee-track');
+  if (!track) return;
+
+  // Motion here is ambient, not informative, so honouring the preference costs
+  // the user nothing: the rail degrades to a scrollable row.
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const trackWidth = track.scrollWidth;
+  if (!trackWidth) return;
+
+  const copies = Math.max(2, Math.ceil((marquee.offsetWidth * 2) / trackWidth));
+
+  for (let i = 1; i < copies; i += 1) {
+    const clone = track.cloneNode(true);
+    // The clones are the same logos again — announcing them would make the
+    // list read as though Senties had twice the partners it does.
+    clone.setAttribute('aria-hidden', 'true');
+    marquee.appendChild(clone);
+  }
+
+  marquee.classList.add('is-animated');
 }
