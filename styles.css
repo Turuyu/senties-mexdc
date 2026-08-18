@@ -534,7 +534,7 @@ body.menu-open .mobile-toggle span { background: var(--text); }
 
 .figures {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 24px;
     padding: 42px 0;
     border-top: var(--border);
@@ -916,6 +916,7 @@ body.dark-theme .footer-brands-sep { background: rgba(255, 255, 255, 0.14); }
 
 @media (max-width: 1024px) {
     .sai-inner { grid-template-columns: 1fr; }
+    .figures { grid-template-columns: repeat(2, 1fr); gap: 28px; }
     .services-grid { grid-template-columns: 1fr; }
     .glass-stat--hero { top: auto; bottom: clamp(96px, 14vw, 130px); }
 }
@@ -938,7 +939,6 @@ body.dark-theme .footer-brands-sep { background: rgba(255, 255, 255, 0.14); }
     .glass-stat--hero { position: static; align-self: flex-start; }
     .hero-scroll { display: none; }
 
-    .figures { grid-template-columns: 1fr; gap: 22px; padding: 32px 0; }
     .contact-info { grid-template-columns: 1fr; }
 
     /* A vertical rule reads as debris once the marks wrap onto two lines */
@@ -948,6 +948,7 @@ body.dark-theme .footer-brands-sep { background: rgba(255, 255, 255, 0.14); }
 @media (max-width: 480px) {
     .hero-actions { flex-direction: column; align-items: stretch; }
     .hero-actions .btn { width: 100%; justify-content: center; }
+    .figures { grid-template-columns: 1fr; gap: 22px; padding: 32px 0; }
     .glass-stat strong { font-size: 1.6rem; }
 }
 

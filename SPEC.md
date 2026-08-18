@@ -27,7 +27,7 @@ Orden real de `<section>` dentro de `<main class="page">`:
 | # | Sección | `id` | Clases | Notas |
 |---|---------|------|--------|-------|
 | 1 | Hero | — | `panel panel--media` | Video ambiental de fondo |
-| 2 | Credibilidad | `credibilidad` | `panel credibility` | 3 cifras acumuladas + enlace MEXDC |
+| 2 | Credibilidad | `credibilidad` | `panel credibility` | 4 cifras + enlace MEXDC |
 | 3 | SAI | `sai` | `panel panel--dark sai` | Metodología propia |
 | 4 | Servicios | `servicios` | `panel services` | 3 tarjetas |
 | 5 | Afianzadoras | — | `panel partners` | Marquee de 11 logos |
@@ -76,7 +76,11 @@ MEXDC" en `<em>` con color accent.
 - GIVEN el visitante ve el glass stat del hero
 - WHEN lee la etiqueta
 - THEN dice explícitamente "en 2025"
-- AND esa cifra no aparece en ninguna otra parte del sitio
+- AND si esa cifra se repite en otra sección, ambas declaran el mismo periodo
+
+> `$57,200 MDP` aparece hoy en el hero y como cuarta cifra de Credibilidad, las
+> dos etiquetadas "en 2025". La repetición es aceptable porque ambas dicen lo
+> mismo; lo prohibido es que el mismo valor aparezca con dos marcos distintos.
 
 #### Scenario: El video no consume CPU fuera de pantalla
 - GIVEN el visitante hace scroll más allá del hero
@@ -87,20 +91,26 @@ MEXDC" en `<em>` con color accent.
 
 ### REQ-CREDIBILIDAD: Trayectoria
 
-Sección que presenta la trayectoria acumulada de la firma.
+Sección que presenta la trayectoria de la firma: tres cifras acumuladas y el
+monto afianzado del último ejercicio cerrado.
 
 **Section label**: "Credibilidad"
 **H2**: "Nuestra trayectoria completa como agente afianzador"
-**Copy**: debe declarar que las cifras son acumuladas de toda la operación, en
-todos los sectores, y que **no** se derivan de la membresía MEXDC ni se limitan
-al ecosistema de data centers.
-**Cifras** (grid de 3):
+**Copy**: debe declarar que las cifras cubren toda la operación en todos los
+sectores, **distinguir cuáles son acumuladas y cuál corresponde a un ejercicio**,
+y afirmar que **no** se derivan de la membresía MEXDC ni se limitan al ecosistema
+de data centers.
+**Cifras** (grid de 4):
 
-| Valor | Etiqueta |
-|-------|----------|
-| `+19,500` | Fianzas emitidas en total |
-| `+200` | Programas corporativos |
-| `+$130 MDP` | Recuperados en reclamaciones |
+| Valor | Etiqueta | Periodo |
+|-------|----------|---------|
+| `+19,500` | Fianzas emitidas en total | Acumulado |
+| `+200` | Programas corporativos | Acumulado |
+| `+$130 MDP` | Recuperados en reclamaciones | Acumulado |
+| `$57,200 MDP` | Monto afianzado en 2025 | Ejercicio 2025 |
+
+La cifra del ejercicio va **al final** de la fila: las tres acumuladas se leen
+juntas y el dato anual cierra con su periodo declarado.
 
 **Enlace**: pill "Ir a MEXDC →" a `https://asmexdc.com/socios-y-asociados/`,
 en la misma pestaña.
@@ -111,10 +121,12 @@ en la misma pestaña.
 - THEN el encabezado y el copy las presentan como trayectoria total de la firma
 - AND la membresía MEXDC aparece descrita como credencial independiente
 
-#### Scenario: Cifras anuales y acumuladas no se mezclan
+#### Scenario: Una cifra anual convive con las acumuladas
 - GIVEN una cifra corresponde a un solo ejercicio
-- WHEN se coloca en el sitio
-- THEN va etiquetada con su periodo y **no** dentro del bloque de acumulados
+- WHEN se coloca junto a cifras acumuladas
+- THEN su etiqueta declara el año de forma explícita
+- AND el copy de la sección enuncia la mezcla, indicando cuántas son acumuladas
+- AND ningún encabezado presenta el conjunto como si todo fuera acumulado
 
 ---
 
@@ -229,9 +241,9 @@ Tokens definidos pero sin uso actual: `--border-strong`, `--invert`,
 
 | Media query | Efecto principal |
 |-------------|------------------|
-| `≤1024px` | SAI a 1 columna, servicios a 1 columna, glass stat reposicionado |
-| `≤768px` | Nav oculto y menú móvil activo, cifras apiladas, contacto a 1 columna |
-| `≤480px` | CTAs del hero a ancho completo |
+| `≤1024px` | SAI a 1 columna, servicios a 1 columna, cifras a 2 columnas, glass stat reposicionado |
+| `≤768px` | Nav oculto y menú móvil activo, contacto a 1 columna |
+| `≤480px` | CTAs del hero a ancho completo, cifras apiladas a 1 columna |
 | `(hover: none)` | Los logos no dependen de hover: se muestran a color |
 | `prefers-reduced-motion` | Marquee y transiciones desactivados |
 

@@ -102,7 +102,7 @@ pasa a `position: static` dentro del flujo a ≤768px, para que no colisione.
 
 ### Credibilidad (`panel credibility`)
 
-`.figures` es un grid de **3 columnas** con `border-top`/`border-bottom`, que lo
+`.figures` es un grid de **4 columnas** con `border-top`/`border-bottom`, que lo
 convierte en una banda horizontal. `margin-bottom: 56px` es lo único que separa
 las cifras del pill de MEXDC — no hay elemento intermedio.
 
@@ -166,14 +166,15 @@ hover nunca dispara y el efecto los dejaría en gris permanente.
 
 | Breakpoint | Cambios |
 |------------|---------|
-| `≤1024px` | `.sai-inner` y `.services-grid` a 1 columna; `.glass-stat--hero` se ancla abajo |
-| `≤768px` | `--radius-panel` a 24px; nav y CTA del header ocultos, `.mobile-toggle` visible; `.glass-stat--hero` a `position: static`; `.figures` y `.contact-info` a 1 columna; separador del footer oculto |
-| `≤480px` | CTAs del hero a ancho completo; `.glass-stat strong` reducido |
+| `≤1024px` | `.sai-inner` y `.services-grid` a 1 columna; `.figures` a 2 columnas; `.glass-stat--hero` se ancla abajo |
+| `≤768px` | `--radius-panel` a 24px; nav y CTA del header ocultos, `.mobile-toggle` visible; `.glass-stat--hero` a `position: static`; `.contact-info` a 1 columna; separador del footer oculto |
+| `≤480px` | CTAs del hero a ancho completo; `.figures` a 1 columna; `.glass-stat strong` reducido |
 | `(hover: none)` | Logos a color permanente |
 | `prefers-reduced-motion` | Marquee detenido, transiciones anuladas |
 
-Las cifras se mantienen a 3 columnas hasta 768px y ahí apilan directo a 1. No
-hay paso intermedio de 2 columnas: con 3 elementos dejaría un huérfano.
+Las cifras reparten 4 → 2×2 a ≤1024px → 1 columna a ≤480px. Ese escalonado solo
+funciona con un número **par** de cifras: con 3 elementos el paso de 2 columnas
+deja un huérfano, y hubo que saltárselo mientras la sección tuvo 3.
 
 ---
 
@@ -231,6 +232,8 @@ La navegación por anclas **no** usa JS: la resuelve `scroll-behavior: smooth`.
   `--shadow-lg`. Preceden a los cambios recientes; se dejan por si el diseño los
   retoma.
 - `.mexdc-badge-text`, `.sai-content` y `.sai-label` son ganchos sin regla CSS.
-- La sección Credibilidad perdió su única cifra monetaria al mover `$57,200 MDP`
-  al hero como dato de 2025. Falta el acumulado histórico real para restituir una
-  cuarta cifra y volver `.figures` a 4 columnas.
+- `$57,200 MDP` aparece dos veces: en el glass stat del hero y como cuarta cifra
+  de Credibilidad, ambas etiquetadas "en 2025". Es redundancia deliberada
+  —Credibilidad necesitaba un dato monetario— no una contradicción. Cuando exista
+  el monto acumulado histórico real, esa cuarta cifra debería pasar a ser el
+  acumulado y el dato anual quedarse solo en el hero.
