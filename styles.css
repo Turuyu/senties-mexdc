@@ -56,9 +56,8 @@
 
     --badge-mexdc-bg: rgba(0, 43, 73, 0.07);
     --badge-mexdc-bg-hover: rgba(0, 43, 73, 0.12);
-    --badge-mexdc-icon-bg: rgba(255, 117, 48, 0.12);
 
-    /* Dark panels (SAI, Niveles) */
+    /* Dark panels (SAI, Contacto) */
     --panel-dark-bg: linear-gradient(140deg, #00253f 0%, #0b3a5c 55%, #12496f 100%);
 }
 
@@ -535,7 +534,7 @@ body.menu-open .mobile-toggle span { background: var(--text); }
 
 .figures {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 24px;
     padding: 42px 0;
     border-top: var(--border);
@@ -553,15 +552,9 @@ body.menu-open .mobile-toggle span { background: var(--text); }
 .figure span { font-size: 0.8rem; color: var(--text-tertiary); }
 
 /* ==========================================================================
-   LOGO GRIDS
+   LOGO CARDS
    ========================================================================== */
 
-.logo-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 14px;
-    margin-bottom: 36px;
-}
 .logo-card {
     display: flex;
     align-items: center;
@@ -681,16 +674,7 @@ body.menu-open .mobile-toggle span { background: var(--text); }
     transform: translateY(-2px);
     color: var(--primary);
 }
-.mexdc-badge-icon {
-    display: inline-flex;
-    width: 22px; height: 22px;
-    align-items: center; justify-content: center;
-    background: var(--badge-mexdc-icon-bg);
-    color: var(--accent);
-    border-radius: 50%;
-    font-size: 0.68rem;
-}
-.mexdc-badge-ext { font-size: 0.64rem; opacity: 0.55; }
+.mexdc-badge-arrow { font-size: 0.7rem; opacity: 0.65; }
 
 /* ==========================================================================
    SAI
@@ -792,36 +776,6 @@ body.menu-open .mobile-toggle span { background: var(--text); }
 .service-card p { font-size: 0.89rem; }
 
 /* ==========================================================================
-   SERVICE LEVELS — numbered rows
-   ========================================================================== */
-
-.levels-list { list-style: none; }
-
-.level-row {
-    display: grid;
-    grid-template-columns: 52px 1.1fr 1.5fr auto;
-    align-items: center;
-    gap: 20px;
-    padding: 22px 24px;
-    border-radius: var(--radius-md);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.09);
-    transition: background 0.25s;
-}
-.level-row:last-child { border-bottom: none; }
-.level-row:hover { background: rgba(255, 255, 255, 0.07); }
-
-.level-index { font-size: 0.78rem; color: rgba(255, 255, 255, 0.4); letter-spacing: 0.05em; }
-.level-name { font-family: var(--font-ui); font-size: 0.98rem; font-weight: 500; color: #fff; }
-.level-note { font-size: 0.85rem; color: rgba(255, 255, 255, 0.55); }
-.level-value {
-    font-family: var(--font-display);
-    font-size: 1.15rem;
-    color: var(--accent-light);
-    white-space: nowrap;
-    justify-self: end;
-}
-
-/* ==========================================================================
    CONTACT
    ========================================================================== */
 
@@ -866,6 +820,22 @@ body.menu-open .mobile-toggle span { background: var(--text); }
     margin-bottom: 3px;
 }
 .contact-item span { font-family: var(--font-ui); font-size: 0.95rem; color: var(--text); font-weight: 500; }
+
+/* On a dark panel the cream tile and its dark type would fight the gradient, so
+   the cards switch to the translucent-white surface .sai-highlight already uses
+   over the same background. */
+.panel--dark .contact-item {
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+.panel--dark .contact-item:hover { background: rgba(255, 255, 255, 0.11); }
+.panel--dark .contact-item i {
+    background: rgba(255, 255, 255, 0.09);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    color: var(--accent-light);
+}
+.panel--dark .contact-item strong { color: rgba(255, 255, 255, 0.5); }
+.panel--dark .contact-item span { color: #fff; }
 
 /* ==========================================================================
    FOOTER
@@ -946,8 +916,6 @@ body.dark-theme .footer-brands-sep { background: rgba(255, 255, 255, 0.14); }
 
 @media (max-width: 1024px) {
     .sai-inner { grid-template-columns: 1fr; }
-    .figures { grid-template-columns: repeat(2, 1fr); gap: 28px; }
-    .logo-grid { grid-template-columns: repeat(3, 1fr); }
     .services-grid { grid-template-columns: 1fr; }
     .glass-stat--hero { top: auto; bottom: clamp(96px, 14vw, 130px); }
 }
@@ -970,16 +938,8 @@ body.dark-theme .footer-brands-sep { background: rgba(255, 255, 255, 0.14); }
     .glass-stat--hero { position: static; align-self: flex-start; }
     .hero-scroll { display: none; }
 
-    .level-row {
-        grid-template-columns: 40px 1fr;
-        row-gap: 6px;
-        padding: 20px 16px;
-    }
-    .level-note { grid-column: 2; }
-    .level-value { grid-column: 2; justify-self: start; }
-
+    .figures { grid-template-columns: 1fr; gap: 22px; padding: 32px 0; }
     .contact-info { grid-template-columns: 1fr; }
-    .logo-grid { grid-template-columns: repeat(2, 1fr); }
 
     /* A vertical rule reads as debris once the marks wrap onto two lines */
     .footer-brands-sep { display: none; }
@@ -988,7 +948,6 @@ body.dark-theme .footer-brands-sep { background: rgba(255, 255, 255, 0.14); }
 @media (max-width: 480px) {
     .hero-actions { flex-direction: column; align-items: stretch; }
     .hero-actions .btn { width: 100%; justify-content: center; }
-    .figures { grid-template-columns: 1fr; gap: 22px; padding: 32px 0; }
     .glass-stat strong { font-size: 1.6rem; }
 }
 
