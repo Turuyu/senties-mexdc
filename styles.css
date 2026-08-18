@@ -532,9 +532,15 @@ body.menu-open .mobile-toggle span { background: var(--text); }
    FIGURES — oversized number row
    ========================================================================== */
 
+/* Columnas al contenido, no a cuartos iguales: con 1fr toda columna medía 235px
+   y "$57,200 MDP" pedía ~236px, así que la cifra más larga saltaba de renglón
+   mientras "+200" desperdiciaba la mitad de su celda. Con `auto` cada track pide
+   lo que necesita y `space-between` reparte el sobrante contra los bordes de la
+   banda. */
 .figures {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, auto);
+    justify-content: space-between;
     gap: 24px;
     padding: 42px 0;
     border-top: var(--border);
@@ -544,12 +550,15 @@ body.menu-open .mobile-toggle span { background: var(--text); }
 .figure { display: flex; flex-direction: column; gap: 6px; }
 .figure strong {
     font-family: var(--font-display);
-    font-size: clamp(1.6rem, 3vw, 2.5rem);
+    font-size: clamp(1.5rem, 2.8vw, 2.3rem);
     font-weight: 500;
     color: var(--text);
     letter-spacing: -0.03em;
+    /* El track ya se dimensiona al contenido; nowrap es lo que garantiza que
+       nunca parta, aunque el dato crezca de dígitos. */
+    white-space: nowrap;
 }
-.figure span { font-size: 0.8rem; color: var(--text-tertiary); }
+.figure span { font-size: 0.8rem; color: var(--text-tertiary); white-space: nowrap; }
 
 /* ==========================================================================
    LOGO CARDS
@@ -938,6 +947,8 @@ body.dark-theme .footer-brands-sep { background: rgba(255, 255, 255, 0.14); }
     /* Cards leave the overlay and join the flow so nothing collides */
     .glass-stat--hero { position: static; align-self: flex-start; }
     .hero-scroll { display: none; }
+
+    .figure span { white-space: normal; }
 
     .contact-info { grid-template-columns: 1fr; }
 

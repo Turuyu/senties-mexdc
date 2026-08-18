@@ -106,6 +106,18 @@ pasa a `position: static` dentro del flujo a ≤768px, para que no colisione.
 convierte en una banda horizontal. `margin-bottom: 56px` es lo único que separa
 las cifras del pill de MEXDC — no hay elemento intermedio.
 
+Las columnas son `auto`, no `1fr`, repartidas con `justify-content: space-between`.
+Con cuartos iguales toda columna medía 235px y `$57,200 MDP` pedía ~236px: la
+cifra más larga se partía de renglón mientras `+200` desperdiciaba media celda.
+Dimensionando al contenido, cada track pide lo suyo y el sobrante se reparte
+contra los bordes de la banda.
+
+`white-space: nowrap` en `.figure strong` es lo que garantiza que la cifra nunca
+parta, aunque mañana gane dígitos. En `.figure span` el nowrap se **libera** a
+≤768px: en la franja de dos columnas más estrecha (~481px) la columna baja a
+~182px y la etiqueta más larga mide ~173px, así que forzar nowrap ahí produciría
+desbordamiento en lugar de salto — peor defecto que el que se quería evitar.
+
 > Cambiar la cantidad de `.figure` obliga a revisar los tres breakpoints de
 > ancho. Un grid de N columnas con N−1 elementos deja una celda huérfana que
 > solo aparece en tablet.

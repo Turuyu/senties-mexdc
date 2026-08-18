@@ -112,6 +112,9 @@ de data centers.
 La cifra del ejercicio va **al final** de la fila: las tres acumuladas se leen
 juntas y el dato anual cierra con su periodo declarado.
 
+Las cuatro cifras deben caber en una sola línea cada una en escritorio, sin
+partirse. Una cifra partida en dos renglones se lee como dos datos.
+
 **Enlace**: pill "Ir a MEXDC →" a `https://asmexdc.com/socios-y-asociados/`,
 en la misma pestaña.
 
