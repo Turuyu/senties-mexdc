@@ -1,173 +1,282 @@
-# Spec: Senties Chauvet Site Redesign
+# Spec: Senties Chauvet — Sitio Público
+
+> **Estado**: describe el sitio tal como está publicado, a 2026-08-18.
+> **Fuente de verdad**: `index.html`, `styles.css`, `script.js`. Si este documento
+> y el código difieren, gana el código y este documento está en deuda.
+> El plan del rediseño original quedó archivado en `TASKS.md`.
+
+---
 
 ## Purpose
-Rediseñar el sitio estático vanilla HTML/CSS/JS con posicionamiento centrado en el ecosistema MEXDC,
-promoviendo SAI como metodología principal y separando afianzadoras de miembros MEXDC.
+
+Sitio estático vanilla HTML/CSS/JS para Senties Chauvet, agente afianzador.
+El posicionamiento comercial apunta al ecosistema de data centers en México y
+promueve SAI (Supplier Analysis) como metodología propia. La membresía en MEXDC
+se presenta como credencial verificable, **no** como origen de las cifras de
+trayectoria de la firma.
+
+Sin build step, sin framework, sin dependencias de runtime salvo Font Awesome y
+Google Fonts por CDN.
 
 ---
 
 ## Site Structure
 
-| Section | Type | Order |
-|---------|------|-------|
-| Header | MODIFIED | 1 — nav links: SAI, Servicios, Niveles, Contacto |
-| Hero | MODIFIED | 2 — nuevo badge, h1, CTAs |
-| MEXDC Trust | NEW | 3 — logo grid + verificación |
-| SAI — Supplier Analysis | PROMOTED | 4 — sección visualmente destacada |
-| Services | MODIFIED | 5 — SAI sale, los otros 3 siguen |
-| Afianzadoras aliadas | RENAMED | 6 — nombre + copy nuevos |
-| Service Levels | KEPT | 7 — sin cambios estructurales |
-| Contact | KEPT | 8 — sin cambios |
-| Footer | MODIFIED | 9 — añade enlace MEXDC |
+Orden real de `<section>` dentro de `<main class="page">`:
+
+| # | Sección | `id` | Clases | Notas |
+|---|---------|------|--------|-------|
+| 1 | Hero | — | `panel panel--media` | Video ambiental de fondo |
+| 2 | Credibilidad | `credibilidad` | `panel credibility` | 3 cifras acumuladas + enlace MEXDC |
+| 3 | SAI | `sai` | `panel panel--dark sai` | Metodología propia |
+| 4 | Servicios | `servicios` | `panel services` | 3 tarjetas |
+| 5 | Afianzadoras | — | `panel partners` | Marquee de 11 logos |
+| 6 | Contacto | `contacto` | `panel panel--dark contact` | 4 canales |
+
+Fuera de `<main>`: `<header>` fijo, `<div class="mobile-menu">`, `<footer>` y un
+botón flotante de WhatsApp.
+
+**Ritmo visual**: los paneles oscuros (`panel--dark`) son SAI y Contacto. Ese
+alternado es intencional — Contacto cierra la página con el mismo peso con el
+que SAI la ancla a la mitad.
 
 ---
 
 ## Requirements
 
-### REQ-HERO: Hero Section Redesign
+### REQ-NAV: Navegación
 
-**Badge**: "Partner MEXDC · Agente Afianzador Certificado" con ícono de verificación.
-**H1**: "El agente afianzador que entiende el ecosistema MEXDC" — "MEXDC" en accent italic.
-**CTAs**: "Solicitar fianza" (primary) + "Conocer SAI" (secondary/outline, scroll a #sai).
-**Stats row**: sin cambios en datos, conserva estructura actual.
-**Hero image**: se mantiene `assets/header-photo-2.jpg`.
+Los enlaces del nav de escritorio y del menú móvil deben ser idénticos y apuntar
+únicamente a secciones existentes: `#sai`, `#servicios`, `#contacto`.
 
-#### Scenario: Visitante ve el nuevo posicionamiento
-- GIVEN un visitante llega al sitio
-- WHEN carga la página
-- THEN ve el badge "Partner MEXDC · Agente Afianzador Certificado"
-- AND el h1 incluye "ecosistema MEXDC" con MEXDC en accent
-- AND el CTA secundario dice "Conocer SAI"
+#### Scenario: Todo ancla resuelve
+- GIVEN el visitante hace clic en cualquier enlace del nav
+- WHEN el destino es un `href="#..."`
+- THEN existe un elemento con ese `id` en el documento
+- AND la página hace scroll suave (vía `scroll-behavior: smooth`, sin JS)
 
-#### Scenario: CTA secundario navega a SAI
-- GIVEN el visitante está en el hero
-- WHEN hace clic en "Conocer SAI"
-- THEN la página hace scroll a la sección #sai
+#### Scenario: El menú móvil se cierra al navegar
+- GIVEN el menú móvil está abierto
+- WHEN el visitante hace clic en cualquier enlace interno o presiona `Escape`
+- THEN el menú se cierra y el foco regresa al botón que lo abrió
 
-### REQ-MEXDC: MEXDC Trust Section
+---
 
-Sección NUEVA entre Hero y SAI. Reemplaza la sección "Partners" actual.
-Debe mostrar logos de miembros MEXDC reconocibles como señal de confianza.
+### REQ-HERO: Hero
+
+**Badge**: "Partner MEXDC · Agente Afianzador Certificado" con `fa-circle-check`.
+Es un sello de credencial, no un enlace.
+**H1**: "El agente afianzador que entiende el ecosistema MEXDC" — "ecosistema
+MEXDC" en `<em>` con color accent.
+**CTAs**: "Solicitar fianza" (primary, a `#contacto`) y "Conocer SAI" (ghost, a `#sai`).
+**Glass stat**: `$57,200 MDP` — "Monto afianzado en 2025".
+**Fondo**: `assets/senties-hero.mp4`, en bucle, silenciado, sin controles.
+
+#### Scenario: La cifra del hero declara su periodo
+- GIVEN el visitante ve el glass stat del hero
+- WHEN lee la etiqueta
+- THEN dice explícitamente "en 2025"
+- AND esa cifra no aparece en ninguna otra parte del sitio
+
+#### Scenario: El video no consume CPU fuera de pantalla
+- GIVEN el visitante hace scroll más allá del hero
+- WHEN el hero sale del viewport
+- THEN el video se pausa, y se reanuda al volver
+
+---
+
+### REQ-CREDIBILIDAD: Trayectoria
+
+Sección que presenta la trayectoria acumulada de la firma.
 
 **Section label**: "Credibilidad"
-**H2**: "Miembro del ecosistema MEXDC"
-**Copy**: texto breve explicando qué es MEXDC.
-**Logo grid**: logos de Equinix, KIO, Schneider, Siemens, Microsoft (obtenidos del sitio público MEXDC). Layout: 5-columnas en desktop, scroll horizontal en mobile.
-**Badge**: "Partner MEXDC" con enlace a `https://asmexdc.com/socios-y-asociados/` (target="_blank", rel="noopener").
+**H2**: "Nuestra trayectoria completa como agente afianzador"
+**Copy**: debe declarar que las cifras son acumuladas de toda la operación, en
+todos los sectores, y que **no** se derivan de la membresía MEXDC ni se limitan
+al ecosistema de data centers.
+**Cifras** (grid de 3):
 
-#### Scenario: Visitante verifica membresía MEXDC
-- GIVEN el visitante está en la sección MEXDC Trust
-- WHEN hace clic en el badge "Partner MEXDC"
-- THEN se abre `https://asmexdc.com/socios-y-asociados/` en nueva pestaña
+| Valor | Etiqueta |
+|-------|----------|
+| `+19,500` | Fianzas emitidas en total |
+| `+200` | Programas corporativos |
+| `+$130 MDP` | Recuperados en reclamaciones |
 
-#### Scenario: Logos visibles en mobile
-- GIVEN el dispositivo tiene viewport < 768px
-- WHEN el visitante ve la sección MEXDC Trust
-- THEN los logos se muestran en scroll horizontal (no se cortan ni apilan verticalmente)
+**Enlace**: pill "Ir a MEXDC →" a `https://asmexdc.com/socios-y-asociados/`,
+en la misma pestaña.
 
-### REQ-SAI: SAI Promoted Section
+#### Scenario: Ninguna cifra se atribuye a MEXDC
+- GIVEN el visitante lee la sección Credibilidad
+- WHEN interpreta las cifras
+- THEN el encabezado y el copy las presentan como trayectoria total de la firma
+- AND la membresía MEXDC aparece descrita como credencial independiente
 
-SAI pasa de ser una tarjeta de servicio a sección propia con prominencia visual.
+#### Scenario: Cifras anuales y acumuladas no se mezclan
+- GIVEN una cifra corresponde a un solo ejercicio
+- WHEN se coloca en el sitio
+- THEN va etiquetada con su periodo y **no** dentro del bloque de acumulados
+
+---
+
+### REQ-SAI: Sección SAI
 
 **Section label**: "Metodología Propia"
-**H2**: "SAI: El análisis que cambia cómo eligen sus afianzadoras"
-**Copy**: qué hace SAI (análisis financiero + riesgo de proveedores en ecosistema data centers).
-**Diferenciadores**: score de salud, indicadores de riesgo, datos fiscales, concentración comercial — presentados como lista visual con íconos.
-**Resultado destacado**: "Evaluación en 1 hora, no en semanas" — en tipografía grande y accent.
-**Fondo**: distinto al resto — usar `var(--primary)` como fondo de sección (estilo levels) o `var(--bg-alt)` con borde accent lateral.
+**H2**: "SAI: el análisis que cambia cómo eligen sus afianzadoras"
+**Diferenciadores** (4, con ícono): score de salud, indicadores de riesgo, datos
+fiscales, concentración comercial.
+**Callout**: bloque destacado sobre fondo translúcido, con acento naranja.
 
-#### Scenario: SAI es la sección más visible
-- GIVEN el visitante navega por el sitio
-- WHEN llega a la sección SAI
-- THEN el fondo es visualmente distinto a las secciones adyacentes
-- AND "Evaluación en 1 hora, no en semanas" usa color accent y tamaño prominente
+Panel oscuro: todo elemento hijo que defina color o fondo con tokens de tema
+necesita override explícito bajo `.panel--dark` (ver REQ-THEME).
 
-#### Scenario: Servicios ya no incluyen SAI como tarjeta
-- GIVEN el visitante está en la sección Services
-- WHEN observa las tarjetas de servicio
-- THEN solo ve 3 tarjetas: Emisión de fianzas, Programas corporativos, Gestión jurídica
-- AND SAI no aparece como cuarta tarjeta
+---
 
-### REQ-SERVICES: Services Reorganized
+### REQ-SERVICES: Servicios
 
-3 tarjetas (SAI fue extraído a sección propia):
+Exactamente 3 tarjetas, sin tarjeta de SAI (SAI tiene sección propia):
+
 1. Emisión y administración de fianzas
 2. Programas corporativos
 3. Gestión jurídica y reclamaciones
 
-El layout pasa de 2×2 a 3-columnas en desktop.
+Grid de 3 columnas en escritorio, 1 columna a ≤1024px.
 
-#### Scenario: Grid de servicios con 3 columnas
-- GIVEN el viewport es >= 769px
-- WHEN el visitante ve la sección Services
-- THEN las 3 tarjetas se muestran en un grid de 3 columnas (1fr cada una)
+---
 
-### REQ-AFIANZADORAS: Afianzadoras Section Renamed
+### REQ-PARTNERS: Afianzadoras aliadas
 
-**Nuevo título**: "Respaldados por las principales afianzadoras de México"
-**Section label**: "Respaldo"
-Se mantienen las 11 afianzadoras actuales sin cambios.
-El propósito es diferenciar afianzadoras (insurers) del ecosistema MEXDC (operators/suppliers).
+**H2**: "Respaldados por las principales afianzadoras de México"
+**Rail**: marquee horizontal continuo con 11 logos — Berkley, Dorama, Tokio
+Marine, Insurgentes, Avanza Fianzas, Chubb, Mapfre, Atlas, Sofimex, Aserta, AVLA.
 
-#### Scenario: Visitante distingue afianzadoras de miembros MEXDC
-- GIVEN el visitante ve la sección MEXDC Trust (con logos de Equinix, KIO, etc.)
-- WHEN llega a la sección Afianzadoras
-- THEN entiende que son entidades distintas — las afianzadoras son las emisoras de las fianzas
+El markup lleva **un solo** `.logo-marquee-track`; `script.js` clona copias hasta
+cubrir el ancho visible al menos dos veces. Un logo se agrega en un solo lugar.
 
-### REQ-FOOTER: Footer Update
+#### Scenario: El rail no muestra huecos
+- GIVEN el viewport es más ancho que el track original
+- WHEN el marquee se inicializa
+- THEN se clonan tracks hasta cubrir el doble del ancho visible
 
-Añadir: "Miembro de MEXDC · asmexdc.com" con enlace verificable.
-Mantener copyright y nota CNSF.
+#### Scenario: Se respeta reduced-motion
+- GIVEN el sistema declara `prefers-reduced-motion: reduce`
+- WHEN carga la página
+- THEN la animación del marquee no se ejecuta
 
-#### Scenario: Enlace MEXDC en footer
-- GIVEN el visitante está en el footer
-- WHEN hace clic en "asmexdc.com"
-- THEN se abre `https://asmexdc.com/socios-y-asociados/` en nueva pestaña
+---
+
+### REQ-CONTACT: Contacto
+
+Panel oscuro. **H2**: "Hablemos de tu proyecto".
+**Copy**: "Cuéntanos sobre tu operación o proyecto. Nos pondremos en contacto lo antes posible."
+**Canales** (grid de 2): teléfono, email, WhatsApp, LinkedIn.
+
+El sitio **no** promete tiempos de respuesta en ninguna parte. Si se reintroduce
+un SLA, debe existir una sección que lo sostenga.
+
+---
+
+### REQ-THEME: Tema claro / oscuro
+
+El tema se controla con la clase `dark-theme` sobre `<body>`:
+
+- Al cargar, `script.js` lee `localStorage`; si no hay preferencia guardada, usa
+  `prefers-color-scheme`.
+- El botón `#themeToggle` alterna y persiste la elección.
+
+`:root` define la paleta clara completa; `body.dark-theme` redefine 19 tokens.
+
+#### Scenario: Un componente entra a un panel oscuro
+- GIVEN un componente define `color` o `background` con tokens de tema
+- WHEN se coloca dentro de `.panel--dark`
+- THEN necesita override explícito bajo `.panel--dark`
+- BECAUSE los tokens siguen el tema claro/oscuro, no el panel
 
 ---
 
 ## Design Tokens
 
-| Token | Light | Dark |
-|-------|-------|------|
-| `--bg` | `#fafaf8` | `#0f0f0f` |
-| `--bg-alt` | `#f3f1ed` | `#161616` |
-| `--surface` | `#ffffff` | `#1a1a1a` |
-| `--primary` | `#002B49` | `#5a8aaa` |
-| `--accent` | `#FF7530` | `#FF7530` |
-| `--text` | `#1a1a1a` | `#e8e8e8` |
-| `--text-secondary` | `#5a5a5a` | `#a0a0a0` |
-| `--font-heading` | Playfair Display | — |
-| `--font-body` | Inter | — |
+Valores reales de `:root` (tema claro). `body.dark-theme` redefine un subconjunto.
 
-**Nuevos tokens necesarios**:
-- `--sai-bg`: fondo de sección SAI (sugerido: `var(--primary)` o gradiente sutil)
-- `--accent-glow`: sombra/glow para elementos SAI destacados
-- `--badge-mexdc-bg`: fondo del badge Partner MEXDC
+| Token | Valor | Uso |
+|-------|-------|-----|
+| `--canvas` | `#ebe5db` | Fondo del shell, detrás de los paneles |
+| `--surface` | `#ffffff` | Superficie de tarjetas |
+| `--surface-sunken` | `#f5f2ec` | Tarjetas sobre panel claro |
+| `--primary` | `#002B49` | Azul de marca |
+| `--accent` | `#FF7530` | Naranja de marca |
+| `--accent-light` | `#FF9A66` | Acento sobre fondo oscuro — **no** se redefine en dark |
+| `--text` | `#14212b` | Texto principal |
+| `--text-secondary` | `#5b6672` | Texto de apoyo |
+| `--text-tertiary` | `#8b959e` | Etiquetas de cifras |
+| `--panel-dark-bg` | `linear-gradient(140deg, …)` | Gradiente navy de `panel--dark` |
+| `--radius-panel` | `32px` | Redondeo de panel flotante (24px a ≤768px) |
+| `--max-width` | `1180px` | Ancho de `.panel-inner` |
+
+**Tipografía** — sistema IBM Plex, cargado desde Google Fonts:
+
+| Token | Familia |
+|-------|---------|
+| `--font-display` | `'IBM Plex Serif', Georgia, serif` |
+| `--font-body` | `'IBM Plex Sans', system-ui, sans-serif` |
+| `--font-ui` | `'IBM Plex Sans', system-ui, sans-serif` |
+
+Tokens definidos pero sin uso actual: `--border-strong`, `--invert`,
+`--radius-sm`, `--shadow-lg`.
 
 ---
 
-## Assets Required
+## Breakpoints
 
-| Asset | Source | Notes |
-|-------|--------|-------|
-| `logo-senties.png` | Existing | Sin cambios |
-| `header-photo-2.jpg` | Existing | Sin cambios |
-| Logo Equinix | Sitio público MEXDC o brand assets | Para grid MEXDC Trust |
-| Logo KIO | Sitio público MEXDC | Para grid MEXDC Trust |
-| Logo Schneider | Sitio público MEXDC | Para grid MEXDC Trust |
-| Logo Siemens | Sitio público MEXDC | Para grid MEXDC Trust |
-| Logo Microsoft | Sitio público MEXDC | Para grid MEXDC Trust |
-| Ícono verificación | Font Awesome `fa-circle-check` | Para badge Partner MEXDC |
+| Media query | Efecto principal |
+|-------------|------------------|
+| `≤1024px` | SAI a 1 columna, servicios a 1 columna, glass stat reposicionado |
+| `≤768px` | Nav oculto y menú móvil activo, cifras apiladas, contacto a 1 columna |
+| `≤480px` | CTAs del hero a ancho completo |
+| `(hover: none)` | Los logos no dependen de hover: se muestran a color |
+| `prefers-reduced-motion` | Marquee y transiciones desactivados |
+
+**Regla**: cambiar la cantidad de `.figure` obliga a revisar los tres
+breakpoints de ancho. Un grid de N columnas con N−1 elementos deja una celda
+huérfana que solo se ve en tablet.
+
+---
+
+## Assets
+
+Todos en `assets/`. Verificados presentes:
+
+| Asset | Uso |
+|-------|-----|
+| `senties-hero.mp4` | Video de fondo del hero (ignorado en git, ver `.gitignore`) |
+| `logo-senties.png` | Header y footer |
+| `logo-lazaro-cruz-768x610.png` | Footer |
+| `favicon-32.png`, `cropped-Fav-icon-180x180.jpg` | Íconos |
+| 11 logos de afianzadoras | Rail de partners |
+
+`sofimex.png` y `avla-logo.svg` son marcas blancas sobre transparente: llevan
+`.logo-card--invert` para que se lean sobre tarjeta clara.
+
+**Íconos**: Font Awesome 6 por CDN. Todo `<i>` decorativo lleva `aria-hidden="true"`.
 
 ---
 
 ## Key Copy Points
 
-- Posicionamiento: "El agente afianzador para el ecosistema MEXDC"
+- Posicionamiento: agente afianzador para el ecosistema de data centers
 - H1: "El agente afianzador que entiende el ecosistema MEXDC"
-- SAI tagline: "El análisis que cambia cómo eligen sus afianzadoras"
-- SAI resultado: "Evaluación en 1 hora, no en semanas"
+- SAI: "el análisis que cambia cómo eligen sus afianzadoras"
 - Afianzadoras: "Respaldados por las principales afianzadoras de México"
-- MEXDC: "Miembro del ecosistema MEXDC" con verificación pública
+- Credibilidad: "Nuestra trayectoria completa como agente afianzador"
+- Contacto: "Hablemos de tu proyecto"
 - Footer: "Miembro de MEXDC · asmexdc.com"
+
+---
+
+## Restricciones de contenido
+
+1. **Ninguna cifra sin periodo declarado** cuando conviva con cifras de otro
+   periodo. Un mismo valor no puede aparecer dos veces con marcos distintos.
+2. **Ninguna cifra atribuida a MEXDC.** La membresía es credencial, no origen.
+3. **Ningún dato inventado.** Si no consta en fuente verificable, no se publica —
+   con más razón en la sección llamada "Credibilidad".
+4. **Ninguna promesa de tiempo de respuesta** sin sección que la sostenga.

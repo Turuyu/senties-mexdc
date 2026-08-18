@@ -1,537 +1,236 @@
-# Design: Senties Chauvet Site Redesign
+# Design: Senties Chauvet — Sitio Público
 
-Practical implementation guide derived from `SPEC.md`. Targets `index.html`, `styles.css`; no changes to `script.js` (anchor scroll already covered by `scroll-behavior: smooth`).
-
----
-
-## 1. CSS Architecture
-
-**Principle**: extend the existing `:root` token system; never overwrite. The existing build already has clean tokens (`--bg`, `--bg-alt`, `--surface`, `--primary`, `--primary-light`, `--accent`, `--accent-light`, `--text*`, `--text-inverse`, `--radius-*`, `--shadow-*`, `--font-*`, `--max-width`, `--border`) and a `body.dark-theme` override block. New tokens go into `:root` and get mirrored in `body.dark-theme` where theme-sensitive.
-
-### New tokens (add to `:root`)
-
-```css
-:root {
-  /* ---Existing tokens unchanged, then:
-       SAI section background (subtle gradient distinct from flat .levels) */
-  --sai-bg: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-  --sai-surface: rgba(255, 255, 255, 0.06);        /* panels inside SAI */
-  --sai-surface-border: rgba(255, 255, 255, 0.10);
-
-  /* Accent glow for SAI "1 hora" callout */
-  --accent-glow: 0 0 0 1px rgba(255, 117, 48, 0.30), 0 4px 24px rgba(255, 117, 48, 0.25);
-
-  /* MEXDC Partner badge pill */
-  --badge-mexdc-bg: rgba(0, 43, 73, 0.08);
-  --badge-mexdc-bg-hover: rgba(0, 43, 73, 0.14);
-  --badge-mexdc-icon-bg: rgba(255, 117, 48, 0.12);
-
-  /* MEXDC logo grid card surface (reuses --surface in light,
-     slightly lifted border for white-on-white cards) */
-  --mexdc-logo-card-border: 1px solid rgba(0, 0, 0, 0.05);
-  --mexdc-logo-card-shadow: var(--shadow-sm);
-  --mexdc-logo-card-shadow-hover: 0 8px 20px rgba(0, 0, 0, 0.08);
-
-  /* Section spacing helper */
-  --section-pad: 80px 24px;
-}
-```
-
-### Dark-theme overrides (add inside `body.dark-theme` block)
-
-```css
-body.dark-theme {
-  --badge-mexdc-bg: rgba(37, 70, 98, 0.18);
-  --badge-mexdc-bg-hover: rgba(37, 70, 98, 0.28);
-  --mexdc-logo-card-border: 1px solid rgba(255, 255, 255, 0.06);
-}
-```
-
-### New section visual patterns
-
-| Section | Background | Text | Pattern source |
-|---------|-----------|------|----------------|
-| `.mexdc-trust` | `var(--bg)` | dark | mirrors `.services` shell (light) |
-| `.sai` | `var(--sai-bg)` gradient | `var(--text-inverse)` | new; parallels `.levels` but gradient for visual differentiation |
-| `.partners` (renamed) | `var(--bg-alt)` | dark | unchanged from current |
-
-**Why a gradient instead of flat `--primary` for SAI**: `.levels` (section 7) already uses flat `var(--primary)`. Two immediate neighbors showing the same flat navy would read as one continuous block. A 135° gradient `--primary → --primary-light` gives depth and clearly separates SAI from Levels while staying on-brand.
+> **Estado**: documenta la implementación publicada, a 2026-08-18.
+> **Fuente de verdad**: `styles.css` y `script.js`. Los fragmentos de código de
+> este documento son ilustrativos; si divergen del archivo real, gana el archivo.
+> Los requisitos viven en `SPEC.md`. El plan del rediseño original quedó
+> archivado en `TASKS.md`.
 
 ---
 
-## 2. HTML Structure — Section by Section
+## 1. Sistema de layout — paneles flotantes
 
-### 2a. MEXDC Trust Section (NEW) — inserted after Hero, before SAI
+El sitio no usa secciones a sangre completa. Usa un *shell* con padding
+uniforme del que cuelgan paneles redondeados independientes:
 
-```html
-<section class="mexdc-trust" id="mexdc-trust" aria-labelledby="mexdc-trust-title">
-  <div class="mexdc-trust-inner">
-    <div class="section-header">
-      <span class="section-label">Credibilidad</span>
-      <h2 id="mexdc-trust-title">Miembro del ecosistema MEXDC</h2>
-      <p class="section-desc">
-        La Asociación Mexicana de Data Centers (MEXDC) reúne a operadores, proveedores
-        y profissionais del ecosistema digital en México. Pertenecer al ecosistema es
-        una señal de credibilidad verificable públicamente.
-      </p>
-    </div>
-
-    <div class="mexdc-logo-grid" role="list">
-      <div class="mexdc-logo-card" role="listitem">
-        <img src="assets/mexdc/logo-equinix.png" alt="Equinix" loading="lazy">
-      </div>
-      <div class="mexdc-logo-card" role="listitem">
-        <img src="assets/mexdc/logo-kio.png" alt="KIO" loading="lazy">
-      </div>
-      <div class="mexdc-logo-card" role="listitem">
-        <img src="assets/mexdc/logo-schneider.png" alt="Schneider Electric" loading="lazy">
-      </div>
-      <div class="mexdc-logo-card" role="listitem">
-        <img src="assets/mexdc/logo-siemens.png" alt="Siemens" loading="lazy">
-      </div>
-      <div class="mexdc-logo-card" role="listitem">
-        <img src="assets/mexdc/logo-microsoft.png" alt="Microsoft" loading="lazy">
-      </div>
-    </div>
-
-    <a href="https://asmexdc.com/socios-y-asociados/"
-       class="mexdc-badge"
-       target="_blank"
-       rel="noopener">
-      <span class="mexdc-badge-icon"><i class="fa-solid fa-circle-check"></i></span>
-      <span class="mexdc-badge-text">Partner MEXDC</span>
-      <i class="fa-solid fa-arrow-up-right-from-square mexdc-badge-ext" aria-hidden="true"></i>
-    </a>
-  </div>
-</section>
+```
+<div class="page">        padding + gap = --shell-pad (14px)
+  <main class="stack">    columna flex, mismo gap
+    <section class="panel">          --radius-panel (32px), overflow hidden
+      <div class="panel-inner">      max-width 1180px, padding --panel-pad
 ```
 
-### 2b. SAI Section (PROMOTED) — new section between MEXDC Trust and Services
+El fondo del shell es `--canvas` (`#ebe5db`), un crudo cálido. Los paneles son
+`--surface` (blanco) y flotan sobre él. Ese contraste crudo/blanco es lo que da
+la sensación de tarjetas separadas sin necesidad de bordes ni sombras.
 
-```html
-<section class="sai" id="sai" aria-labelledby="sai-title">
-  <div class="sai-inner">
-    <div class="sai-content">
-      <span class="section-label sai-label">Metodología Propia</span>
-      <h2 id="sai-title">SAI: El análisis que cambia cómo eligen sus afianzadoras</h2>
-      <p class="sai-desc">
-        Supplier Analysis es nuestra plataforma propia de análisis financiero y de
-        riesgo para proveedores del ecosistema de data centers. Convierte la
-        evaluación de un fiado en datos accionables antes de comprometer una fianza.
-      </p>
+`--panel-pad` es `clamp(32px, 5.5vw, 84px)`: el respiro interior escala con el
+viewport sin necesitar breakpoints propios.
 
-      <ul class="sai-differentiators">
-        <li>
-          <span class="sai-diff-icon"><i class="fa-solid fa-heart-pulse"></i></span>
-          <div>
-            <strong>Score de salud</strong>
-            <span>Indicador sintético de solvencia del proveedor.</span>
-          </div>
-        </li>
-        <li>
-          <span class="sai-diff-icon"><i class="fa-solid fa-triangle-exclamation"></i></span>
-          <div>
-            <strong>Indicadores de riesgo</strong>
-            <span>Alertas tempranas sobre obligaciones y litigios.</span>
-          </div>
-        </li>
-        <li>
-          <span class="sai-diff-icon"><i class="fa-solid fa-file-invoice-dollar"></i></span>
-          <div>
-            <strong>Datos fiscales</strong>
-            <span>Cumplimiento y situación ante el SAT.</span>
-          </div>
-        </li>
-        <li>
-          <span class="sai-diff-icon"><i class="fa-solid fa-layer-group"></i></span>
-          <div>
-            <strong>Concentración comercial</strong>
-            <span>Dependencia de clientes y proveedores clave.</span>
-          </div>
-        </li>
-      </ul>
-    </div>
-
-    <aside class="sai-highlight" aria-label="Resultado SAI">
-      <span class="sai-callout-label">Resultado</span>
-      <p class="sai-callout">Evaluación en <strong>1 hora</strong>, no en semanas</p>
-      <span class="sai-callout-note">Mientras una evaluación manual toma de 2 a 4 semanas, SAI entrega el análisis del fiado en menos de 60 minutos con el expediente completo.</span>
-    </aside>
-  </div>
-</section>
-```
-
-### 2c. Services Section (REORGANIZED) — 3 cards, SAI removed
-
-```html
-<section id="servicios" class="services">
-  <div class="services-inner">
-    <div class="section-header">
-      <span class="section-label">Servicios</span>
-      <h2>Soluciones de afianzamiento para el ecosistema de data centers</h2>
-    </div>
-    <div class="services-grid">
-      <!-- 3 cards only: Emisión, Programas, Gestión jurídica. The SAI card is REMOVED. -->
-      <div class="service-card">
-        <div class="service-icon"><i class="fa-solid fa-file-signature"></i></div>
-        <h3>Emisión y administración de fianzas</h3>
-        <p>Fianzas de cumplimiento, anticipo y buena calidad para operadores de data centers y proveedores del ecosistema. Gestión integral desde la solicitud hasta la vigencia.</p>
-      </div>
-      <div class="service-card">
-        <div class="service-icon"><i class="fa-solid fa-building"></i></div>
-        <h3>Programas corporativos</h3>
-        <p>Programas de afianzamiento a medida para operadores de data centers, proveedores de infraestructura tecnológica, conectividad y empresas del ecosistema digital.</p>
-      </div>
-      <div class="service-card">
-        <div class="service-icon"><i class="fa-solid fa-scale-balanced"></i></div>
-        <h3>Gestión jurídica y reclamaciones</h3>
-        <p>Equipo legal especializado que acompaña desde la revisión contractual hasta el cobro de reclamaciones. Más de $130 MDP recuperados.</p>
-      </div>
-    </div>
-  </div>
-</section>
-```
-
-CSS change in `.services-grid`:
+### Variante oscura
 
 ```css
-.services-grid {
-  grid-template-columns: repeat(3, 1fr); /* was repeat(2, 1fr) */
+.panel--dark {
+    background: var(--panel-dark-bg);   /* gradiente navy 140deg */
+    color: var(--text-inverse);
 }
+.panel--dark h2, .panel--dark h3 { color: #fff; }
+.panel--dark p { color: rgba(255, 255, 255, 0.65); }
+.panel--dark .tone-soft { color: rgba(255, 255, 255, 0.42); }
+.panel--dark .section-label { color: var(--accent-light); }
 ```
 
-### 2d. Hero Updates (MODIFIED)
+Paneles oscuros actuales: **SAI** y **Contacto**.
 
-```html
-<span class="hero-badge hero-badge--mexdc">
-  <i class="fa-solid fa-circle-check hero-badge-check"></i>
-  Partner MEXDC · Agente Afianzador Certificado
-</span>
-<h1>El agente afianzador que entiende el <em>ecosistema MEXDC</em></h1>
-<p>Estructuramos programas corporativos de afianzamiento…</p>
-<div class="hero-actions">
-  <a href="#contacto" class="btn btn-primary">Solicitar fianza <i class="fa-solid fa-arrow-right"></i></a>
-  <a href="#sai" class="btn btn-outline">Conocer SAI</a>
-</div>
+> **La trampa de `panel--dark`.** Esas reglas cubren `h2`, `h3`, `p`,
+> `.tone-soft` y `.section-label`. **Nada más.** Cualquier componente que defina
+> su propio `color` o `background` con tokens de tema seguirá pintándose para el
+> tema claro/oscuro, no para el panel. Los tokens siguen el **tema**; el panel es
+> otro eje.
+>
+> Por eso `.contact-item` necesitó overrides explícitos al pasar Contacto a
+> oscuro: sus tiles `--surface-sunken` crema con texto `--text` oscuro habrían
+> quedado flotando sobre el gradiente navy, con un borde `rgba(0,0,0,0.06)`
+> invisible.
+
+**Convención para elementos sobre panel oscuro** (la establece `.sai-highlight`
+y la siguen `.sai-diff-icon` y `.panel--dark .contact-item`):
+
+```css
+background: rgba(255, 255, 255, 0.07);   /* superficie */
+border:     1px solid rgba(255, 255, 255, 0.12);
+color:      var(--accent-light);          /* íconos */
 ```
 
-Notes:
-- `.hero-badge` keeps existing styles; the `--mexdc` modifier adds the inline check icon.
-- The H1 italic accent (`em`) keeps the current styling `color: var(--accent)`.
-- CTA2 `href` changes from `#servicios` → `#sai`; label from "Ver servicios" → "Conocer SAI"; arrow icon removed to keep it visibly secondary.
-
-### 2e. Afianzadoras Section (RENAMED) — same `.partners` structure, new copy
-
-```html
-<section class="partners" id="afianzadoras" aria-labelledby="afianzadoras-title">
-  <div class="partners-inner">
-    <span class="section-label">Respaldo</span>
-    <h2 id="afianzadoras-title">Respaldados por las principales afianzadoras de México</h2>
-    <p>Las fianzas que emitimos cuentan con el respaldo de aseguradoras autorizadas por la CNSF. Emisoras, no operadoras: son las que asumen el riesgo afianzador.</p>
-    <div class="partners-list">
-      <!-- 11 spans unchanged -->
-    </div>
-  </div>
-</section>
-```
-
-### 2f. Footer (MODIFIED)
-
-```html
-<footer class="footer">
-  <div class="footer-inner">
-    <p>&copy; 2026 Senties Chauvet · Fianzas y Garantías. Todos los derechos reservados.</p>
-    <p class="footer-note">
-      Agente afianzador certificado.
-      <a href="https://asmexdc.com/socios-y-asociados/"
-         target="_blank" rel="noopener">Miembro de MEXDC · asmexdc.com</a>.
-      Fianzas respaldadas por compañías autorizadas por la CNSF.
-    </p>
-  </div>
-</footer>
-```
-
-Add `--accent` link styling inside `.footer-note` so the MEXDC link stands out while staying understated.
-
-### Header nav (MODIFIED)
-
-Nav links become: `SAI` (`#sai`), `Servicios` (`#servicios`), `Niveles` (`#niveles`), `Contacto` (`#contacto`). Mobile menu mirrors the same set.
+`--accent-light` (`#FF9A66`) **no** se redefine en `body.dark-theme`, así que
+rinde el mismo naranja en ambos temas sobre el navy. Es intencional: la
+combinación ya estaba probada en SAI antes de reutilizarse en Contacto.
 
 ---
 
-## 3. Responsive Strategy
+## 2. Sistema de tema
 
-| Section | Desktop (≥769px) | Mobile (≤768px) |
-|---------|-----------------|-----------------|
-| MEXDC logo grid | 5-col grid `repeat(5, 1fr)`, fixed-height logo cards | horizontal scroll, cards `minmax(140px, auto)`, `overflow-x: auto`, hide scrollbar |
-| SAI section | 2-col grid `1.2fr 1fr` (content \| highlight) | single column, highlight stacks BELOW content |
-| Services | 3-col `repeat(3, 1fr)` | single column (existing behavior) |
-| Hero | existing grid `1fr 400px` | existing single-column behavior unchanged |
-| Afianzadoras | existing centered flex-wrap | existing centered flex-wrap unchanged |
-| Footer | centered single block | unchanged |
+Clase sobre `<body>`, no media query:
 
-Breakpoint stays at the existing `768px` and `480px` pair to avoid introducing a new one.
+```js
+// script.js — initTheme()
+localStorage.getItem('theme')                       // 1. preferencia guardada
+  ?? window.matchMedia('(prefers-color-scheme: dark)')  // 2. preferencia del SO
+document.body.classList.toggle('dark-theme')        // 3. botón #themeToggle
+```
 
-### Mobile scroll-snap for MEXDC logos
+`:root` define la paleta clara completa (33 tokens). `body.dark-theme` redefine
+19. El resto se hereda — por eso `--accent` y `--accent-light` son idénticos en
+ambos temas.
+
+Overrides puntuales de tema fuera del bloque de tokens (`body.dark-theme .X`):
+header al hacer scroll, logo del header y del footer (invertidos a blanco),
+`.btn-primary`, `.theme-toggle` y el separador del footer.
+
+---
+
+## 3. Secciones — patrones visuales
+
+### Hero (`panel panel--media`)
+
+`--panel-pad` se anula (`.panel--media { padding: 0 }`): el video ocupa el panel
+completo y el contenido va sobre él con su propio padding.
+
+Capas: `<video>` → `.hero-scrim` (degradado para legibilidad) → `.hero-body`.
+El `.glass-stat--hero` se posiciona absoluto sobre el video en escritorio y
+pasa a `position: static` dentro del flujo a ≤768px, para que no colisione.
+
+### Credibilidad (`panel credibility`)
+
+`.figures` es un grid de **3 columnas** con `border-top`/`border-bottom`, que lo
+convierte en una banda horizontal. `margin-bottom: 56px` es lo único que separa
+las cifras del pill de MEXDC — no hay elemento intermedio.
+
+> Cambiar la cantidad de `.figure` obliga a revisar los tres breakpoints de
+> ancho. Un grid de N columnas con N−1 elementos deja una celda huérfana que
+> solo aparece en tablet.
+
+### SAI (`panel panel--dark sai`)
+
+`.sai-inner` es un grid de 2 columnas (contenido + `.sai-highlight`) que colapsa
+a 1 a ≤1024px.
+
+### Servicios (`panel services`)
+
+3 tarjetas `--surface-sunken` sobre panel claro. Grid de 3 → 1 a ≤1024px.
+
+### Afianzadoras (`panel partners`)
+
+Rail marquee horizontal. Ver §4.
+
+### Contacto (`panel panel--dark contact`)
+
+Grid de 2×2 de `.contact-item`, a 1 columna en ≤768px. Panel oscuro: aplica todo
+lo de §1.
+
+---
+
+## 4. Marquee de logos
+
+El rail desplaza cada track exactamente el ancho de un track hacia la izquierda,
+de modo que la copia siguiente aterriza donde empezó la anterior. Eso solo se lee
+como continuo si los tracks juntos superan el ancho visible — por eso
+`script.js` **clona hasta cubrir el doble del viewport**, en vez de asumir que
+dos copias alcanzan siempre.
+
+El markup lleva **un solo** `.logo-marquee-track`. Un logo se agrega en un único
+lugar; el clonado es responsabilidad del script.
 
 ```css
-@media (max-width: 768px) {
-  .mexdc-logo-grid {
+.logo-marquee {
+    --marquee-gap: 14px;
     display: flex;
+    gap: var(--marquee-gap);
+    padding: 18px 0;   /* aire vertical: si no, el lift de la tarjeta se recorta */
     overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    gap: 12px;
-    padding-bottom: 8px;
-    -webkit-overflow-scrolling: touch;
-  }
-  .mexdc-logo-card {
-    flex: 0 0 140px;
-    scroll-snap-align: start;
-  }
-  /* hide scrollbar but keep functional */
-  .mexdc-logo-grid::-webkit-scrollbar { display: none; }
-  .mexdc-logo-grid { scrollbar-width: none; }
-
-  .sai-inner { grid-template-columns: 1fr; }
-  .sai-highlight { order: 2; }
+    scrollbar-width: none;
 }
 ```
+
+`.logo-card--invert` existe para Sofimex y AVLA, que solo publican marcas blancas
+sobre transparente: invertirlas las pinta en negro para que se lean sobre tarjeta
+clara. Como no tienen color que revelar, su hover responde con opacidad, no con
+`grayscale`.
+
+Bajo `@media (hover: none)` todos los logos se muestran a color: en táctil el
+hover nunca dispara y el efecto los dejaría en gris permanente.
 
 ---
 
-## 4. CSS Snippet Examples — Key New Patterns
+## 5. Responsive
 
-### MEXDC logo grid (desktop)
+| Breakpoint | Cambios |
+|------------|---------|
+| `≤1024px` | `.sai-inner` y `.services-grid` a 1 columna; `.glass-stat--hero` se ancla abajo |
+| `≤768px` | `--radius-panel` a 24px; nav y CTA del header ocultos, `.mobile-toggle` visible; `.glass-stat--hero` a `position: static`; `.figures` y `.contact-info` a 1 columna; separador del footer oculto |
+| `≤480px` | CTAs del hero a ancho completo; `.glass-stat strong` reducido |
+| `(hover: none)` | Logos a color permanente |
+| `prefers-reduced-motion` | Marquee detenido, transiciones anuladas |
 
-```css
-.mexdc-trust { padding: var(--section-pad); }
-.mexdc-trust-inner { max-width: var(--max-width); margin: 0 auto; text-align: center; }
-
-.mexdc-logo-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 16px;
-  margin: 40px 0 32px;
-}
-.mexdc-logo-card {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--surface);
-  border: var(--mexdc-logo-card-border);
-  border-radius: var(--radius-md);
-  padding: 24px 16px;
-  height: 96px;
-  box-shadow: var(--mexdc-logo-card-shadow);
-  transition: transform 0.25s, box-shadow 0.25s;
-}
-.mexdc-logo-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--mexdc-logo-card-shadow-hover);
-}
-.mexdc-logo-card img {
-  max-height: 48px;
-  max-width: 100%;
-  width: auto;
-  object-fit: contain;
-  filter: grayscale(0.4);
-  opacity: 0.85;
-  transition: filter 0.25s, opacity 0.25s;
-}
-.mexdc-logo-card:hover img { filter: grayscale(0); opacity: 1; }
-```
-
-### MEXDC Partner badge (pill with check icon + link)
-
-```css
-.mexdc-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  background: var(--badge-mexdc-bg);
-  border-radius: 999px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--primary);
-  transition: background 0.2s, transform 0.2s;
-}
-.mexdc-badge:hover {
-  background: var(--badge-mexdc-bg-hover);
-  transform: translateY(-1px);
-}
-.mexdc-badge-icon {
-  display: inline-flex;
-  width: 22px; height: 22px;
-  align-items: center; justify-content: center;
-  background: var(--badge-mexdc-icon-bg);
-  color: var(--accent);
-  border-radius: 50%;
-  font-size: 0.7rem;
-}
-.mexdc-badge-ext { font-size: 0.65rem; opacity: 0.55; }
-```
-
-### SAI section (light text on gradient)
-
-```css
-.sai {
-  padding: var(--section-pad);
-  background: var(--sai-bg);
-  color: var(--text-inverse);
-}
-.sai-inner {
-  max-width: var(--max-width);
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1.2fr 1fr;
-  gap: 56px;
-  align-items: center;
-}
-.sai .sai-label,
-.sai .section-label { color: rgba(255, 255, 255, 0.7); }
-.sai h2 { color: #fff; margin-bottom: 16px; }
-.sai-desc { color: rgba(255, 255, 255, 0.75); font-size: 1.05rem; }
-
-.sai-differentiators {
-  list-style: none;
-  margin: 32px 0 0;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 18px;
-}
-.sai-differentiators li {
-  display: flex;
-  gap: 12px;
-  align-items: flex-start;
-}
-.sai-differentiators strong { color: #fff; display: block; font-size: 0.95rem; }
-.sai-differentiators span { color: rgba(255, 255, 255, 0.6); font-size: 0.85rem; }
-.sai-diff-icon {
-  width: 36px; height: 36px;
-  display: inline-flex; align-items: center; justify-content: center;
-  background: var(--sai-surface);
-  border: 1px solid var(--sai-surface-border);
-  border-radius: var(--radius-sm);
-  color: var(--accent);
-  flex-shrink: 0;
-}
-
-/* The "1 hora" callout */
-.sai-highlight {
-  background: var(--sai-surface);
-  border: 1px solid var(--sai-surface-border);
-  border-radius: var(--radius-lg);
-  padding: 40px 32px;
-  text-align: center;
-}
-.sai-callout-label {
-  display: block;
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.5);
-  margin-bottom: 16px;
-}
-.sai-callout {
-  font-family: var(--font-heading);
-  font-size: clamp(1.6rem, 3vw, 2.2rem);
-  line-height: 1.2;
-  color: #fff;
-  margin-bottom: 16px;
-}
-.sai-callout strong { color: var(--accent); font-weight: 500; }
-.sai-callout-note {
-  color: rgba(255, 255, 255, 0.55);
-  font-size: 0.85rem;
-}
-
-/* Highlight accent halo on hover for the callout block */
-.sai-highlight:hover .sai-callout strong {
-  text-shadow: var(--accent-glow);
-}
-```
-
-### Hero badge with check icon
-
-```css
-.hero-badge--mexdc {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-.hero-badge-check { color: var(--accent); font-size: 0.85rem; }
-```
-
-### Footer MEXDC link
-
-```css
-.footer-note a {
-  color: var(--accent);
-  font-weight: 500;
-  text-decoration: underline;
-  text-decoration-color: rgba(255, 117, 48, 0.4);
-  text-underline-offset: 2px;
-}
-.footer-note a:hover { text-decoration-color: var(--accent); }
-```
-
-### Services grid 3-col
-
-```css
-.services-grid {
-  grid-template-columns: repeat(3, 1fr);
-}
-@media (max-width: 768px) {
-  .services-grid { grid-template-columns: 1fr; }
-}
-```
+Las cifras se mantienen a 3 columnas hasta 768px y ahí apilan directo a 1. No
+hay paso intermedio de 2 columnas: con 3 elementos dejaría un huérfano.
 
 ---
 
-## 5. Assets to Download
+## 6. JavaScript
 
-All five MEXDC member logos must be obtained from the public MEXDC site or each brand's official press/brand asset page. Save into a new `assets/mexdc/` directory with the exact filenames referenced above.
+`script.js`, vanilla, sin dependencias. Cinco responsabilidades:
 
-| File | Brand | Source priority |
-|------|-------|-----------------|
-| `assets/mexdc/logo-equinix.png` | Equinix | MEXDC member listing or brand.equinix.com |
-| `assets/mexdc/logo-kio.png` | KIO | MEXDC member listing |
-| `assets/mexdc/logo-schneider.png` | Schneider Electric | MEXDC member listing or se.com brand |
-| `assets/mexdc/logo-siemens.png` | Siemens | MEXDC member listing or siemens brand portal |
-| `assets/mexdc/logo-microsoft.png` | Microsoft | MEXDC member listing or Microsoft Brand Central |
+| Función | Qué hace |
+|---------|----------|
+| `initTheme()` | localStorage → `prefers-color-scheme` → toggle manual |
+| `initMobileMenu()` | Abre/cierra, cierra al navegar, cierra con `Escape`, atrapa el foco y lo devuelve al botón |
+| `initHeaderScroll()` | Añade `.scrolled` al header al pasar el umbral |
+| `initHeroVideo()` | Reproduce silenciado en bucle; pausa cuando el hero sale del viewport (IntersectionObserver) |
+| `initLogoMarquee()` | Clona tracks hasta cubrir 2× el ancho visible |
 
-Constraints:
-- PNG or SVG (preferred SVG for crispness; consistent extension across all 5).
-- Transparent background.
-- Honor each brand's "do not recolor" guideline — use the `grayscale(0.4)` idle / `grayscale(0)` hover filter from the snippet, not mono recolors.
-- Resize to a max-height of ~48px in the card before committing.
+El video **debe** ir silenciado: los navegadores solo permiten autoplay sin
+interacción en ese caso. Es un requisito del navegador, no una preferencia.
 
-Existing assets kept unchanged:
-- `assets/logo-senties.png`
-- `assets/header-photo-2.jpg`
-
-No new JS dependencies. Font Awesome `fa-circle-check` is already available via the existing CDN bundle in `<head>`.
+La navegación por anclas **no** usa JS: la resuelve `scroll-behavior: smooth`.
 
 ---
 
-## 6. Document Order Summary (new `index.html` flow)
+## 7. Accesibilidad
 
-```
-header
-hero              (modified)
-mexdc-trust       (NEW)
-sai               (NEW — promoted from a service card)
-services          (3 cards, SAI removed)
-partners          (renamed: Afianzadoras)
-levels            (kept)
-contact           (kept)
-footer            (modified)
-```
+- Todo `<i>` decorativo lleva `aria-hidden="true"`.
+- Las secciones con `id` referenciable llevan `aria-labelledby` apuntando al `id`
+  de su `<h2>` (`credibility-title`, `sai-title`).
+- El menú móvil gestiona `aria-expanded` y devuelve el foco al cerrar.
+- El `<aside>` del hero lleva `aria-label` que **debe coincidir** con su texto
+  visible. Si cambia la etiqueta, cambia el `aria-label`.
+- Los tracks clonados del marquee reciben `aria-hidden="true"`: son los mismos
+  logos otra vez, y anunciarlos haría leer la lista como si Senties tuviera el
+  doble de afianzadoras aliadas.
+- `prefers-reduced-motion` desactiva marquee y transiciones.
 
-## 7. Open Questions
+---
 
-- [ ] Confirm the exact logo asset format the MEXDC public site exposes (PNG vs SVG) — affects whether the grayscale filter needs adjustment for color SVGs.
-- [ ] Confirm copy wording for the MEXDC Trust descriptive paragraph (placeholder above; SPEC calls for "texto breve explicando qué es MEXDC" without prescribing exact wording).
-- [ ] Decide whether `#sai` CTA should also collapse the mobile menu — current `script.js` already closes the menu on any in-menu `a` click, but the hero CTA sits outside the menu so no script change is required.
+## 8. Convenciones de nombres
+
+- Las clases de sección (`.credibility`, `.sai`, `.services`, `.partners`,
+  `.contact`) son marcadores semánticos sin estilos propios. No las borres por
+  "no usadas": identifican la sección en el markup.
+- `.logo-card` la comparten el rail de partners y cualquier grid de logos futuro.
+  Vive bajo el comentario `LOGO CARDS`, no bajo una sección concreta.
+- Un nombre de clase que describe comportamiento debe seguir siendo cierto:
+  `.mexdc-badge-ext` se renombró a `.mexdc-badge-arrow` cuando el enlace dejó de
+  abrir pestaña nueva. Un `ext` en algo que ya no es externo es una mentira
+  esperando a confundir a quien lo lea.
+
+---
+
+## 9. Deuda conocida
+
+- Tokens definidos sin uso: `--border-strong`, `--invert`, `--radius-sm`,
+  `--shadow-lg`. Preceden a los cambios recientes; se dejan por si el diseño los
+  retoma.
+- `.mexdc-badge-text`, `.sai-content` y `.sai-label` son ganchos sin regla CSS.
+- La sección Credibilidad perdió su única cifra monetaria al mover `$57,200 MDP`
+  al hero como dato de 2025. Falta el acumulado histórico real para restituir una
+  cuarta cifra y volver `.figures` a 4 columnas.

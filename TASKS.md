@@ -1,6 +1,33 @@
 # Implementation Tasks — Senties Chauvet Site Redesign
 
-## TASKS.md — Checklist
+> ## ARCHIVADO — registro histórico
+>
+> **Este documento es el plan del rediseño original, no el estado actual del
+> sitio.** Se conserva como historia. Para saber qué es el sitio hoy:
+>
+> | Pregunta | Documento |
+> |----------|-----------|
+> | Qué hace el sitio y qué debe cumplir | `SPEC.md` |
+> | Cómo está construido y por qué | `DESIGN.md` |
+> | La verdad literal | `index.html`, `styles.css`, `script.js` |
+>
+> **No copies los fragmentos de código de este archivo.** El rediseño se ejecutó
+> con divergencias respecto al plan, y el sitio evolucionó después. Divergencias
+> confirmadas contra el código publicado:
+>
+> - Las TASK-3, TASK-6 y TASK-10 usan la clase `.mexdc-logo-grid`, que **nunca
+>   existió** en `styles.css`. Se implementó como `.logo-grid`, y hoy ya no
+>   existe: el grid de logos MEXDC fue eliminado.
+> - La tipografía planeada (Playfair Display + Inter) se sustituyó por el sistema
+>   IBM Plex.
+> - El hero planeaba `assets/header-photo-2.jpg`; se publicó con video
+>   (`assets/senties-hero.mp4`).
+> - Los tokens `--sai-bg` y `--accent-glow` de TASK-1 nunca se crearon.
+> - La sección "Niveles de servicio" fue eliminada del sitio por completo.
+>
+> Las 15 casillas de la lista de verificación original nunca se marcaron, pese a
+> que el trabajo sí se ejecutó. La lista al final de este archivo fue reemplazada
+> por una que refleja el sitio real.
 
 ---
 
@@ -488,22 +515,41 @@ The DESIGN.md references `assets/mexdc/` but the user downloaded to `assets/mexd
 
 ---
 
-## Verification Checklist
+## Estado verificado del sitio
 
-After applying all tasks, verify:
+Reemplaza la lista de verificación original, que describía un sitio que ya no
+existe. Verificado el 2026-08-18 contra `index.html`, `styles.css` y `script.js`.
 
-- [ ] Hero badge shows check icon + "Partner MEXDC · Agente Afianzador Certificado"
-- [ ] H1 contains `<em>ecosistema MEXDC</em>` with accent color
-- [ ] CTA2 links to `#sai` and says "Conocer SAI"
-- [ ] MEXDC Trust section appears between Hero and SAI with 5 logos
-- [ ] MEXDC logo grid scrolls horizontally on mobile (≤768px)
-- [ ] Partner badge links to `asmexdc.com/socios-y-asociados/` in new tab
-- [ ] SAI section has gradient background distinct from `.levels`
-- [ ] SAI "1 hora" callout is visually prominent with accent color
-- [ ] Services section shows exactly 3 cards (no SAI card)
-- [ ] Services grid is 3-column on desktop
-- [ ] Afianzadoras section label is "Respaldo" with new H2
-- [ ] Footer has MEXDC link with accent styling
-- [ ] Nav links point to `#sai`, `#servicios`, `#niveles`, `#contacto`
-- [ ] Page scrolls smoothly to `#sai` on CTA2 click
-- [ ] No JS changes needed — `scroll-behavior: smooth` handles it
+### Vigente
+
+- [x] Badge del hero: `fa-circle-check` + "Partner MEXDC · Agente Afianzador Certificado"
+- [x] H1 contiene `<em>ecosistema MEXDC</em>` con color accent
+- [x] CTA secundario dice "Conocer SAI" y apunta a `#sai`
+- [x] SAI es sección propia con fondo en gradiente (`panel--dark`)
+- [x] Servicios muestra exactamente 3 tarjetas, sin tarjeta de SAI
+- [x] Grid de servicios a 3 columnas en escritorio
+- [x] Sección de afianzadoras con H2 "Respaldados por las principales afianzadoras de México"
+- [x] Footer con enlace a MEXDC
+- [x] El scroll a anclas lo resuelve `scroll-behavior: smooth`, sin JS
+
+### Cambiado desde el plan original
+
+- [x] Nav apunta a `#sai`, `#servicios`, `#contacto` — **`#niveles` eliminado**
+- [x] Sección "Niveles de servicio" **eliminada** junto con su CSS y sus dos enlaces
+- [x] Grid de logos MEXDC **eliminado**; `assets/mexdc-logos/` borrado
+- [x] El pill de MEXDC dice "Ir a MEXDC" con flecha derecha y abre en la **misma pestaña**
+- [x] Credibilidad reencuadrada como trayectoria total, no como trabajo en MEXDC
+- [x] Credibilidad con **3 cifras** (`.figures` a 3 columnas), no 4
+- [x] `$57,200 MDP` vive solo en el hero, etiquetado "Monto afianzado en 2025"
+- [x] Contacto es `panel--dark`, con overrides propios de `.contact-item`
+- [x] Contacto: "Hablemos de tu proyecto" — sin promesa de tiempo de respuesta
+- [x] Afianzadoras usa marquee animado con clonado por JS, no un grid estático
+
+### Pendiente
+
+- [ ] Verificación visual en navegador: 3 cifras en los tres breakpoints, panel
+      de contacto en tema claro y oscuro, pill "Ir a MEXDC →"
+- [ ] Conseguir el monto acumulado histórico real para restituir la cuarta cifra
+      de Credibilidad y volver `.figures` a 4 columnas
+- [ ] Decidir si se limpian los tokens sin uso (`--border-strong`, `--invert`,
+      `--radius-sm`, `--shadow-lg`)
